@@ -95,11 +95,9 @@
 	var prevTime = Date.now();
 
 	function render() {
-		//exposure
-		renderer.toneMappingExposure = Math.pow(0.7, 5.0);  // -> exposure: 0.168
-		renderer.render(scene, camera);
-
-		requestAnimationFrame(render);
+		const delta = clock.getDelta();
+		if ( physics !== undefined ) physics.update( delta );
+		renderer.render( scene, camera );
 	}
     </script>
     </body>
