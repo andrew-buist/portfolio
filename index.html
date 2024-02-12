@@ -20,11 +20,10 @@
         <canvas id="myCanvas"></canvas>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/104/three.js"></script>
         <script src="GLTFLoader.js"></script>
-    	<script src="OrbitControls.js"></script>
-	<script src="ammo.js"></script>
+    <script src="OrbitControls.js"></script>
 
     <script>
-	    let physics;
+
 
       //Scene
       var scene = new THREE.Scene();
@@ -84,7 +83,6 @@
 	{
         mesh = gltf.scene;
         scene.add( mesh );
-	physics = new MMDPhysics( mesh );
 	}
 
 
@@ -95,9 +93,11 @@
 	var prevTime = Date.now();
 
 	function render() {
-		const delta = clock.getDelta();
-		if ( physics !== undefined ) physics.update( delta );
-		renderer.render( scene, camera );
+		//exposure
+		renderer.toneMappingExposure = Math.pow(0.7, 5.0);  // -> exposure: 0.168
+		renderer.render(scene, camera);
+
+		requestAnimationFrame(render);
 	}
     </script>
     </body>
