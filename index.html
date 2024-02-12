@@ -20,7 +20,8 @@
         <canvas id="myCanvas"></canvas>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/104/three.js"></script>
         <script src="GLTFLoader.js"></script>
-    <script src="OrbitControls.js"></script>
+    	<script src="OrbitControls.js"></script>
+	<script src="ammo.js"></script>
 
     <script>
 
@@ -83,6 +84,7 @@
 	{
         mesh = gltf.scene;
         scene.add( mesh );
+	physics = new MMDPhysics( mesh );
 	}
 
 
