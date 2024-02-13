@@ -39,7 +39,7 @@
 		var diag = Math.sqrt((height * height) + (width * width))
 		var fov = 2 * Math.atan((diag) / (2 * distance)) * (180 / Math.PI); //Field of View
 		var camera = new THREE.PerspectiveCamera(fov, window.innerWidth / window.innerHeight, 0.1, distance);
-		camera.position.set(0, 2, 0);
+		camera.position.set(2, 2, 0);
 
 		//Canvas
 		var myCanvas = document.getElementById('myCanvas');
@@ -74,7 +74,7 @@
 		}
 
 		//OrbitControls
-		orbit = new THREE.OrbitControls(camera, renderer.domElement);
+		orbit = new THREE.OrbitControls(camera, renderer.domElement, new THREE.Vector3(-1.75,3,-5), new THREE.Vector3(1.75,3,3,5));
 		orbit.minPolarAngle = -Math.PI / 2;
 		orbit.maxPolarAngle = Math.PI / 2.4;
 		orbit.maxDistance = 6;

@@ -13,7 +13,7 @@
 //    Zoom - middle mouse, or mousewheel / touch: two-finger spread or squish
 //    Pan - right mouse, or left mouse + ctrl/meta/shiftKey, or arrow keys / touch: two-finger move
 
-THREE.OrbitControls = function ( object, domElement ) {
+THREE.OrbitControls = function ( object, domElement, minPan, maxPan ) {
 
 	this.object = object;
 
@@ -72,7 +72,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 	this.enableKeys = true;
 
 	// The four arrow keys
-	this.keys = { LEFT: 37, UP: 38, RIGHT: 39, BOTTOM: 40 };
+	this.keys = { LEFT: 65, UP: 87, RIGHT: 68, BOTTOM: 83 };
 
 	// Mouse buttons
 	this.mouseButtons = { LEFT: THREE.MOUSE.LEFT, MIDDLE: THREE.MOUSE.MIDDLE, RIGHT: THREE.MOUSE.RIGHT };
@@ -170,6 +170,8 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 			// move target to panned location
 			scope.target.add( panOffset );
+
+			scope.target.clamp(minPan, maxPan);
 
 			offset.setFromSpherical( spherical );
 
