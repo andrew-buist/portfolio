@@ -69,14 +69,17 @@
 			targetObject.position.set(0, 0, element);
 			scene.add(targetObject);
 			light.target = targetObject;
-			light.position.set(0, 8, element);
+			light.position.set(0, 10, element);
 			scene.add(light);
 		}
 
+		var light = new THREE.AmbientLight(0xffffff, 0.5);
+		scene.add(light);
+
 		//OrbitControls
 		orbit = new THREE.OrbitControls(camera, renderer.domElement, new THREE.Vector3(-1.75,3,-5), new THREE.Vector3(1.75,3,3,5));
-		orbit.minPolarAngle = -Math.PI / 2;
-		orbit.maxPolarAngle = Math.PI / 2.4;
+		orbit.minPolarAngle = -Math.PI;
+		orbit.maxPolarAngle = Math.PI / 1.5;
 		orbit.maxDistance = 6;
 		orbit.target = new THREE.Vector3(0, 4, 0);
 		orbit.update();
