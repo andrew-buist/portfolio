@@ -6,7 +6,7 @@
 		{
 		margin: 0;
 		overflow: hidden;
-		background: linear-gradient(#e66465, #9198e5);
+		background: linear-gradient(#121212, #000000);
     		}
             .headerbox1{
                 border: 5px outset red;
@@ -31,11 +31,11 @@
       //Camera
 		var height = window.innerHeight;
 		var width = window.innerWidth;
-		var distance = 1000;
+		var distance = 2000;
 		var diag = Math.sqrt((height*height)+(width*width))
 		var fov = 2 * Math.atan((diag) / (2 * distance)) * (180 / Math.PI); //Field of View
 		var camera = new THREE.PerspectiveCamera(fov, window.innerWidth / window.innerHeight, 0.1, distance);
-		camera.position.set(0, 5, -5);
+		camera.position.set(0,2,0);
 
       //Canvas
       var myCanvas = document.getElementById('myCanvas');
@@ -59,23 +59,27 @@
 		document.body.appendChild( renderer.domElement );
 
 		//LIGHTS
-		var light = new THREE.AmbientLight(0xffffff, 3);
-		light.power = 6640;  // GE Lumens @ 60W incade.
-		light.decay = 2;
-		light.distance = Infinity;
-		light.position.set(0, 2, 0);
-		light.castShadow = true;
-		light.shadowCameraVisible = true;
-		scene.add(light);
+		for(const element of [-10,-5,0,5,10]){
+			var light = new THREE.SpotLight(0xffd0bb,3,0,Math.PI/2.5,.3);
+			const targetObject = new THREE.Object3D();
+			targetObject.position.set(0,0,element);
+			scene.add(targetObject);
+			light.target = targetObject;
+			light.position.set(0,8,element);
+			scene.add(light);
+		}
 
 		//OrbitControls
 		orbit = new THREE.OrbitControls(camera, renderer.domElement);
-		orbit.maxPolarAngle = Math.PI / 2;
+        orbit.minPolarAngle = -Math.PI/2;
+		orbit.maxPolarAngle = Math.PI/2.4;
+		orbit.maxDistance = 6;
+		orbit.target = new THREE.Vector3(0,4,0);
 		orbit.update();
 
 		// Instantiate a loader
 		var loader = new THREE.GLTFLoader();
-		loader.load('cube.glb', handle_load);
+		loader.load('museum_hall.glb', handle_load);
 
 		var mesh;
 
