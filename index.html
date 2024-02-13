@@ -1,108 +1,112 @@
 <html>
-    <head>
-        <script src="https://ajax.googleapis.com/ajax/libs/threejs/r84/three.min.js"></script>
-        <style>
-		body
-		{
-		margin: 0;
-		overflow: hidden;
-		background: linear-gradient(#121212, #000000);
-    		}
-            .headerbox1{
-                border: 5px outset red;
-                background-color: lightblue;
-                text-align: center;
-            }
-        </style>
-    </head>
 
-    <body>
-        <canvas id="myCanvas"></canvas>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/104/three.js"></script>
-        <script src="GLTFLoader.js"></script>
-    <script src="OrbitControls.js"></script>
+<head>
+	<title>Andrew Buist Portfolio</title>
+	<link rel="icon" type="image/x-icon" href = "images/favicon.ico">
+	<script src="https://ajax.googleapis.com/ajax/libs/threejs/r84/three.min.js">
+	</script>
+	<style>
+		body {
+			margin: 0;
+			overflow: hidden;
+			background: linear-gradient(#121212, #000000);
+		}
 
-    <script>
+		.headerbox1 {
+			border: 5px outset red;
+			background-color: lightblue;
+			text-align: center;
+		}
+	</style>
+</head>
+
+<body>
+	<canvas id="myCanvas"></canvas>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/104/three.js"></script>
+	<script src="scripts/GLTFLoader.js"></script>
+	<script src="scripts/OrbitControls.js"></script>
+
+	<script>
 
 
-      //Scene
-      var scene = new THREE.Scene();
+		//Scene
+		var scene = new THREE.Scene();
 
-      //Camera
+		//Camera
 		var height = window.innerHeight;
 		var width = window.innerWidth;
 		var distance = 2000;
-		var diag = Math.sqrt((height*height)+(width*width))
+		var diag = Math.sqrt((height * height) + (width * width))
 		var fov = 2 * Math.atan((diag) / (2 * distance)) * (180 / Math.PI); //Field of View
 		var camera = new THREE.PerspectiveCamera(fov, window.innerWidth / window.innerHeight, 0.1, distance);
-		camera.position.set(0,2,0);
+		camera.position.set(0, 2, 0);
 
-      //Canvas
-      var myCanvas = document.getElementById('myCanvas');
+		//Canvas
+		var myCanvas = document.getElementById('myCanvas');
 
-      //Renderer
-      var renderer = new THREE.WebGLRenderer({
-        antialias: true,
-        canvas: myCanvas,
-		alpha: true
-      });
+		//Renderer
+		var renderer = new THREE.WebGLRenderer({
+			antialias: true,
+			canvas: myCanvas,
+			alpha: true
+		});
 
 
 		//renderer.setClearColor(0x000000);
 		renderer.setPixelRatio(window.devicePixelRatio);
 		renderer.setSize(window.innerWidth, window.innerHeight);
 		renderer.shadowMap.enabled = true;
-    	renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    	renderer.gammaInput = true;
-    	renderer.gammaOutput = true;
-    	renderer.antialias = true;
-		document.body.appendChild( renderer.domElement );
+		renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+		renderer.gammaInput = true;
+		renderer.gammaOutput = true;
+		renderer.antialias = true;
+		document.body.appendChild(renderer.domElement);
 
 		//LIGHTS
-		for(const element of [-10,-5,0,5,10]){
-			var light = new THREE.SpotLight(0xffd0bb,3,0,Math.PI/2.5,.3);
+		for (const element of [-10, -5, 0, 5, 10]) {
+			var light = new THREE.SpotLight(0xffd0bb, 3, 0, Math.PI / 2.5, .3);
 			const targetObject = new THREE.Object3D();
-			targetObject.position.set(0,0,element);
+			targetObject.position.set(0, 0, element);
 			scene.add(targetObject);
 			light.target = targetObject;
-			light.position.set(0,8,element);
+			light.position.set(0, 8, element);
 			scene.add(light);
 		}
 
 		//OrbitControls
 		orbit = new THREE.OrbitControls(camera, renderer.domElement);
-        orbit.minPolarAngle = -Math.PI/2;
-		orbit.maxPolarAngle = Math.PI/2.4;
+		orbit.minPolarAngle = -Math.PI / 2;
+		orbit.maxPolarAngle = Math.PI / 2.4;
 		orbit.maxDistance = 6;
-		orbit.target = new THREE.Vector3(0,4,0);
+		orbit.target = new THREE.Vector3(0, 4, 0);
 		orbit.update();
 
 		// Instantiate a loader
 		var loader = new THREE.GLTFLoader();
-		loader.load('museum_hall.glb', handle_load);
+		loader.load('3d_scenery/museum_hall.glb', handle_load);
 
 		var mesh;
 
-	function handle_load(gltf)
-	{
-        mesh = gltf.scene;
-        scene.add( mesh );
-	}
+		function handle_load(gltf) {
+			mesh = gltf.scene;
+			scene.add(mesh);
+		}
 
 
-	//Render loop
-	render();
+		//Render loop
+		render();
 
-	var delta = 0;
-	var prevTime = Date.now();
+		var delta = 0;
+		var prevTime = Date.now();
 
-	function render() {
-		//exposure
-		renderer.toneMappingExposure = Math.pow(0.7, 5.0);  // -> exposure: 0.168
-		renderer.render(scene, camera);
+		function render() {
+			//exposure
+			renderer.toneMappingExposure = Math.pow(0.7, 5.0);  // -> exposure: 0.168
+			renderer.render(scene, camera);
 
-		requestAnimationFrame(render);
-	}
-    </script>
-    </body>
+			requestAnimationFrame(render);
+		}
+	</script>
+</body>
+
 </html>
