@@ -27,19 +27,17 @@
 	<script src="scripts/OrbitControls.js"></script>
 
 	<script>
-
-
 		//Scene
 		var scene = new THREE.Scene();
 
 		//Camera
 		var height = window.innerHeight;
 		var width = window.innerWidth;
-		var distance = 2000;
+		var distance = 1500;
 		var diag = Math.sqrt((height * height) + (width * width))
 		var fov = 2 * Math.atan((diag) / (2 * distance)) * (180 / Math.PI); //Field of View
 		var camera = new THREE.PerspectiveCamera(fov, window.innerWidth / window.innerHeight, 0.1, distance);
-		camera.position.set(2, 2, 0);
+		camera.position.set(5, 5, -5);
 
 		//Canvas
 		var myCanvas = document.getElementById('myCanvas');
@@ -64,7 +62,7 @@
 
 		//LIGHTS
 		for (const element of [-10, -5, 0, 5, 10]) {
-			var light = new THREE.SpotLight(0xffd0bb, 3, 0, Math.PI / 2.5, .3);
+			var light = new THREE.SpotLight(0xffd0bb, 3, 0, Math.PI / 3, .3);
 			const targetObject = new THREE.Object3D();
 			targetObject.position.set(0, 0, element);
 			scene.add(targetObject);
@@ -76,22 +74,46 @@
 		var light = new THREE.AmbientLight(0xffffff, 0.5);
 		scene.add(light);
 
+		/* var bbox = new THREE.Mesh( new THREE.BoxGeometry(-100,-100,-100));
+		scene.add(bbox);
+		scene.fog = new THREE.Fog(0x000000, 15, 30) */
+
 		//OrbitControls
-		orbit = new THREE.OrbitControls(camera, renderer.domElement, new THREE.Vector3(-1.75,3,-5), new THREE.Vector3(1.75,3,3,5));
-		orbit.minPolarAngle = -Math.PI;
+		orbit = new THREE.OrbitControls(camera, renderer.domElement, new THREE.Vector3(-1.75,5,-5), new THREE.Vector3(1.75,5,5));
+		orbit.minPolarAngle = Math.PI / 3;
 		orbit.maxPolarAngle = Math.PI / 1.5;
 		orbit.maxDistance = 6;
-		orbit.target = new THREE.Vector3(0, 4, 0);
+		orbit.target = new THREE.Vector3(0, 10, 0);
 		orbit.update();
 
 		// Instantiate a loader
 		var loader = new THREE.GLTFLoader();
 		loader.load('3d_scenery/museum_hall.glb', handle_load);
+		loader.load('3d_scenery/museum_hall_plant_alpha.glb', handle_load_transparent)
 
 		var mesh;
 
 		function handle_load(gltf) {
 			mesh = gltf.scene;
+
+			mesh.traverse(n => { if ( n.isMesh ) {
+    		n.castShadow = true; 
+    		n.receiveShadow = true;
+    		n.material.transparency = true;
+  			}});
+
+			scene.add(mesh);
+		}
+
+		function handle_load_transparent(gltf) {
+			mesh = gltf.scene;
+
+			mesh.traverse(n => { if ( n.isMesh ) {
+    		n.castShadow = true; 
+    		n.receiveShadow = true;
+    		n.material.alphaTest = 0.25;
+  			}});
+
 			scene.add(mesh);
 		}
 

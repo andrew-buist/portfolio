@@ -1263,7 +1263,7 @@ THREE.GLTFLoader = ( function () {
 			emissive: 0x000000,
 			metalness: 1,
 			roughness: 1,
-			transparent: false,
+			transparent: true,
 			depthTest: true,
 			side: THREE.FrontSide
 		} );
@@ -2352,7 +2352,7 @@ THREE.GLTFLoader = ( function () {
 
 		} else {
 
-			materialParams.transparent = false;
+			materialParams.transparent = true;
 
 			if ( alphaMode === ALPHA_MODES.MASK ) {
 
