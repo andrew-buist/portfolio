@@ -89,19 +89,13 @@
 		// Instantiate a loader
 		var loader = new THREE.GLTFLoader();
 		loader.load('3d_scenery/museum_hall.glb', handle_load);
+		loader.load('3d_scenery/museum_hall_painting1.glb', handle_load);
 		loader.load('3d_scenery/museum_hall_plant_alpha.glb', handle_load_transparent)
 
 		var mesh;
 
 		function handle_load(gltf) {
 			mesh = gltf.scene;
-
-			mesh.traverse(n => { if ( n.isMesh ) {
-    		n.castShadow = true; 
-    		n.receiveShadow = true;
-    		n.material.transparency = true;
-  			}});
-
 			scene.add(mesh);
 		}
 
@@ -116,7 +110,8 @@
 
 			scene.add(mesh);
 		}
-
+		
+		console.log(scene);
 
 		//Render loop
 		render();
