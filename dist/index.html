@@ -2,7 +2,7 @@
 
 <head>
 	<title>Andrew Buist Portfolio</title>
-	<link rel="icon" type="image/x-icon" href = "/assets/favicon-_GSVhkbf.ico">
+	<link rel="icon" type="image/x-icon" href = "images/favicon.ico">
 	<style>
 		body {
 			margin: 0;
@@ -16,10 +16,20 @@
 			text-align: center;
 		}
 	</style>
-  <script type="module" crossorigin src="/assets/index-BhrvAObY.js"></script>
+
+	<script type="importmap">
+        {
+            "imports": {
+                "three": "./build/three.module.js",
+                "three/examples/jsm/controls/OrbitControls":"./jsm/controls/OrbitControls.js",
+                "three/examples/jsm/loaders/GLTFLoader":"./jsm/loaders/GLTFLoader.js"
+            }
+        }
+    </script>
+  <script type="module" crossorigin src="/assets/index-Cr7CGU-y.js"></script>
 </head>
 
-<body>
+<body>
 	<canvas id="myCanvas"></canvas>
 </body>
 

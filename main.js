@@ -1,6 +1,6 @@
-import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import * as THREE from 'three'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 //Scene
 var scene = new THREE.Scene();
 
@@ -62,7 +62,7 @@ var loader = new GLTFLoader();
 async function loadAssets() {
     const [base_mesh, transparent_mesh, interactive_mesh1] = await Promise.all([
         loader.loadAsync("./3d_scenery/museum_hall.glb"),
-        loader.loadAsync("./3d_scenery/museum_hall_plant_alpha.glb"),
+        loader.loadAsync("./3d_scenery/museum_hall_plants_alpha.glb"),
         loader.loadAsync("./3d_scenery/museum_hall_painting1.glb")
     ])
 
