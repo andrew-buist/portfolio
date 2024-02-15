@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import { OrbitControls } from 'OrbitControls';
-import { GLTFLoader } from 'GLTFLoader';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 //Scene
 var scene = new THREE.Scene();
 
@@ -36,7 +36,7 @@ document.body.appendChild(renderer.domElement);
 
 //LIGHTS
 for (const element of [-10, -5, 0, 5, 10]) {
-    var light = new THREE.SpotLight(0xffd0bb, 50, 0, Math.PI / 3, .3);
+    var light = new THREE.SpotLight(0xffd0bb, 100, 0, Math.PI / 3, .3);
     const targetObject = new THREE.Object3D();
     targetObject.position.set(0, 0, element);
     scene.add(targetObject);
