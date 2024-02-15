@@ -24,7 +24,6 @@ var renderer = new THREE.WebGLRenderer({
     alpha: true
 });
 
-
 //renderer.setClearColor(0x000000);
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -60,10 +59,11 @@ orbit.target = new THREE.Vector3(0, 10, 0);
 // Instantiate a loader
 var loader = new GLTFLoader();
 
+//asset loader to push an array on promise
 async function loadAssets() {
     const [
-        base_mesh, 
-        transparent_mesh, 
+        base_mesh,
+        transparent_mesh,
         interactive_mesh1,
         interactive_mesh2,
         interactive_mesh3
@@ -82,14 +82,14 @@ async function loadAssets() {
         }
     })
 
-    scene.add(base_mesh.scene);
-    scene.add(transparent_mesh.scene);
-    scene.add(interactive_mesh1.scene);
-    scene.add(interactive_mesh2.scene);
-    scene.add(interactive_mesh3.scene);
+    return [base_mesh.scene, transparent_mesh.scene, interactive_mesh1.scene, interactive_mesh2.scene, interactive_mesh3.scene]
 }
 
-loadAssets();
+//result available once promise made
+let result = await loadAssets();
+for(const scn of result){
+    scene.add(scn);
+}
 
 //Render loop
 render();
@@ -99,10 +99,33 @@ var prevTime = Date.now();
 
 function render() {
     //constrain movement to bbox
-    orbit.target.clamp(new THREE.Vector3(-1.5,5,-6), new THREE.Vector3(1.5,5,6))
+    orbit.target.clamp(new THREE.Vector3(-1.5, 5, -6), new THREE.Vector3(1.5, 5, 6))
     //exposure
     renderer.toneMappingExposure = Math.pow(0.7, 5.0);  // -> exposure: 0.168
     renderer.render(scene, camera);
 
     requestAnimationFrame(render);
+}
+
+// Window sizing
+window.addEventListener('resize', onWindowResize, false)
+function onWindowResize() {
+  camera.aspect = window.innerWidth / window.innerHeight
+  camera.updateProjectionMatrix()
+
+  renderer.setSize(window.innerWidth, window.innerHeight)
+}
+
+window.addEventListener('click', onMouseClick, false)
+function onMouseClick(event){
+    var raycaster = new THREE.Raycaster(); // create once
+    var mouse = new THREE.Vector2(); // create once
+
+    mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
+    mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
+
+    raycaster.setFromCamera( mouse, camera );
+
+    var intersects = raycaster.intersectObjects( scene.children );
+    console.log( intersects )
 }
