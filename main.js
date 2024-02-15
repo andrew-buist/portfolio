@@ -48,7 +48,7 @@ for (const element of [-10, -5, 0, 5, 10]) {
 
 var ambient_light = new THREE.AmbientLight(0xffd0bb, .5);
 scene.add(ambient_light);
-scene.fog = new THREE.Fog(0x444444, 10, 30);
+scene.fog = new THREE.Fog(0x222222, 10, 30);
 
 //OrbitControls
 var orbit = new OrbitControls(camera, renderer.domElement);
@@ -61,10 +61,18 @@ orbit.target = new THREE.Vector3(0, 10, 0);
 var loader = new GLTFLoader();
 
 async function loadAssets() {
-    const [base_mesh, transparent_mesh, interactive_mesh1] = await Promise.all([
+    const [
+        base_mesh, 
+        transparent_mesh, 
+        interactive_mesh1,
+        interactive_mesh2,
+        interactive_mesh3
+    ] = await Promise.all([
         loader.loadAsync("./3d_scenery/museum_hall.glb"),
         loader.loadAsync("./3d_scenery/museum_hall_plants_alpha.glb"),
-        loader.loadAsync("./3d_scenery/museum_hall_painting1.glb")
+        loader.loadAsync("./3d_scenery/museum_hall_painting1.glb"),
+        loader.loadAsync("./3d_scenery/museum_hall_painting2.glb"),
+        loader.loadAsync("./3d_scenery/museum_hall_painting3.glb")
     ])
 
     transparent_mesh.scene.traverse(function (child) {
@@ -77,6 +85,8 @@ async function loadAssets() {
     scene.add(base_mesh.scene);
     scene.add(transparent_mesh.scene);
     scene.add(interactive_mesh1.scene);
+    scene.add(interactive_mesh2.scene);
+    scene.add(interactive_mesh3.scene);
 }
 
 loadAssets();
