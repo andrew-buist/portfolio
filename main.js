@@ -45,8 +45,9 @@ for (const element of [-10, -5, 0, 5, 10]) {
     scene.add(light);
 }
 
-var ambient_light = new THREE.AmbientLight(0xffd0bb, 1);
+var ambient_light = new THREE.AmbientLight(0xffd0bb, .5);
 scene.add(ambient_light);
+scene.fog = new THREE.Fog(0x444444, 10, 30);
 
 //OrbitControls
 var orbit = new OrbitControls(camera, renderer.domElement);
@@ -71,8 +72,6 @@ async function loadAssets() {
             child.material.trasparent = true;
         }
     })
-
-    interactive_mesh1.scene.traverse
 
     scene.add(base_mesh.scene);
     scene.add(transparent_mesh.scene);
