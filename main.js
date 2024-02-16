@@ -8,7 +8,7 @@ var scene = new THREE.Scene();
 //Camera
 var height = window.innerHeight;
 var width = window.innerWidth;
-var distance = 1500;
+var distance = 2000;
 var diag = Math.sqrt((height * height) + (width * width))
 var fov = 2 * Math.atan((diag) / (2 * distance)) * (180 / Math.PI); //Field of View
 var camera = new THREE.PerspectiveCamera(fov, window.innerWidth / window.innerHeight, 0.1, distance);
@@ -116,16 +116,21 @@ function onWindowResize() {
   renderer.setSize(window.innerWidth, window.innerHeight)
 }
 
-window.addEventListener('click', onMouseClick, false)
-function onMouseClick(event){
-    var raycaster = new THREE.Raycaster(); // create once
-    var mouse = new THREE.Vector2(); // create once
+const cursor_delta = 6;
+let startX;
+let startY;
 
-    mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
-    mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
+window.addEventListener('mousedown', function (event) {
+  startX = event.clientX;
+  startY = event.clientY;
+});
 
-    raycaster.setFromCamera( mouse, camera );
+window.addEventListener('mouseup', function (event) {
+  const diffX = Math.abs(event.clientX - startX);
+  const diffY = Math.abs(event.clientY - startY);
 
-    var intersects = raycaster.intersectObjects( scene.children );
-    console.log( intersects )
-}
+  if (diffX < cursor_delta && diffY < cursor_delta) {
+    //redirect to links
+    console.log("valid click")
+  }
+});
