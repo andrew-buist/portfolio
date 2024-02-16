@@ -119,6 +119,14 @@ function onWindowResize() {
 const cursor_delta = 6;
 let startX;
 let startY;
+const raycaster = new THREE.Raycaster();
+const pointer = new THREE.Vector2();
+
+const links = {
+    "link1" : "https://www.linkedin.com/in/andrew-buist1",
+    "link2" : "https://github.com/andrew-buist/",
+    "link3" : "https://twitter.com/drewbio"
+}
 
 window.addEventListener('mousedown', function (event) {
   startX = event.clientX;
@@ -131,6 +139,14 @@ window.addEventListener('mouseup', function (event) {
 
   if (diffX < cursor_delta && diffY < cursor_delta) {
     //redirect to links
-    console.log("valid click")
+    pointer.x = ( event.clientX / window.innerWidth ) * 2 -1;
+    pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+    raycaster.setFromCamera(pointer, camera);
+    const intersects = raycaster.intersectObjects(scene.children)
+    const target_intersect = intersects.reduce((prev, curr) => prev.distance < curr.distance ? prev : curr)
+    const goto_address = links[target_intersect.object.name]
+    if(goto_address != undefined){
+        window.location.href = goto_address
+    }
   }
 });
