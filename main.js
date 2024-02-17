@@ -36,14 +36,17 @@ var distance = 2000;
 var diag = Math.sqrt((height * height) + (width * width))
 var fov = 2 * Math.atan((diag) / (2 * distance)) * (180 / Math.PI); //Field of View
 var camera = new THREE.PerspectiveCamera(fov, window.innerWidth / window.innerHeight, 0.1, distance);
-camera.position.set(0, 10, 0);
+camera.position.set(0,5,0);
+camera.zoom = .5;
+camera.updateProjectionMatrix();
 
 //OrbitControls
 var orbit = new OrbitControls(camera, renderer.domElement);
 orbit.minPolarAngle = Math.PI / 3;
 orbit.maxPolarAngle = Math.PI / 1.5;
 orbit.maxDistance = 6;
-orbit.target = new THREE.Vector3(0,5,0);
+orbit.target = new THREE.Vector3(-5,5,0)
+orbit.update()
 
 // Instantiate a loading manager
 var manager = new THREE.LoadingManager();
@@ -133,9 +136,6 @@ scene1.fog = new THREE.Fog(0x222222, 10, 30);
 if(active_scene == scene1){
     render();
 }
-
-var delta = 0;
-var prevTime = Date.now();
 
 function render() {
     //constrain movement to bbox
