@@ -1,6 +1,8 @@
 import * as THREE from './scripts/three/build/three.module.js'
 import { OrbitControls } from './scripts/three/examples/jsm/controls/OrbitControls.js'
 import { GLTFLoader } from './scripts/three/examples/jsm/loaders/GLTFLoader.js'
+import { DRACOLoader } from './scripts/three/examples/jsm/loaders/DRACOLoader.js'
+
 
 //Scenes
 var active_scene = new THREE.Scene();
@@ -56,6 +58,11 @@ manager.onLoad = function ( ) {
 
 //Instantiate a loader
 var loader = new GLTFLoader(manager);
+
+//Include DRACO compression comprehension
+var dracoLoader = new DRACOLoader();
+dracoLoader.setDecoderPath( './scripts/three/examples/jsm/libs/draco/' );
+loader.setDRACOLoader( dracoLoader );
 
 //Scene1 (main) .adds
 {
