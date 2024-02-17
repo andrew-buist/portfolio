@@ -32,7 +32,7 @@ document.body.appendChild(renderer.domElement);
 //Camera
 var height = window.innerHeight;
 var width = window.innerWidth;
-var distance = 2000;
+var distance = 4000;
 var diag = Math.sqrt((height * height) + (width * width))
 var fov = 2 * Math.atan((diag) / (2 * distance)) * (180 / Math.PI); //Field of View
 var camera = new THREE.PerspectiveCamera(fov, window.innerWidth / window.innerHeight, 0.1, distance);
