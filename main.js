@@ -108,6 +108,15 @@ for (const element of [-10, -5, 0, 5, 10]) {
 }
 
 var ambient_light = new THREE.AmbientLight(0xffd0bb, .5);
+
+var focus_light = new THREE.SpotLight(0xffd0bb, 200, 0, Math.PI/6,.3);
+var focus_target = new THREE.Object3D();
+focus_target.position.set(0,20,0);
+scene1.add(focus_target);
+focus_light.target = focus_target;
+focus_light.position.set(0,10,0);
+scene1.add(focus_light)
+
 scene1.add(ambient_light);
 scene1.fog = new THREE.Fog(0x222222, 10, 30);
 
@@ -147,6 +156,7 @@ const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
 let intersects;
 let target_intersect;
+let target_name;
 
 const links = {
     "link1": "https://cran.r-project.org/web/packages/smlmkalman/index.html",
@@ -162,8 +172,26 @@ window.addEventListener('mousemove', function(event) {
     intersects = raycaster.intersectObjects(active_scene.children);
     if(intersects.length > 0){
         target_intersect = intersects.reduce((prev, curr) => prev.distance < curr.distance ? prev : curr);
+
         //multiple materials on one mesh are given the name "xxx", "xxx_1", ...
-        console.log(target_intersect.object.name.split("_")[0]);
+        target_name = target_intersect.object.name.split("_")[0]
+        console.log(target_intersect.point);
+
+        if(Object.keys(links).indexOf(target_name) >= 0){
+            myCanvas.style.cursor = "pointer"
+            focus_light.position.z = target_intersect.point.z
+            focus_light.position.y = target_intersect.point.y
+            focus_light.target.position.x = target_intersect.point.x;
+            focus_light.target.position.y = target_intersect.point.y;
+            focus_light.target.position.z = target_intersect.point.z;
+        } else {
+            myCanvas.style.cursor = "default"
+            focus_light.position.z = 0
+            focus_light.position.y = 10
+            focus_light.target.position.x = 0;
+            focus_light.target.position.y = 20;
+            focus_light.target.position.z = 0;
+        }
     } else {
         console.log("no hit!")
     }
@@ -180,7 +208,7 @@ window.addEventListener('mouseup', function (event) {
 
     if (diffX < cursor_delta && diffY < cursor_delta) {
         //redirect to links
-        const goto_address = links[target_intersect.object.name.split("_")[0]];
+        const goto_address = links[target_name];
         if (goto_address != undefined) {
             window.location.href = goto_address;
         }
