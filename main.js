@@ -32,12 +32,12 @@ document.body.appendChild(renderer.domElement);
 //Camera
 var height = window.innerHeight;
 var width = window.innerWidth;
-var distance = 7500;
+var distance = 2500;
 var diag = Math.sqrt((height * height) + (width * width))
 var fov = 2 * Math.atan((diag) / (2 * distance)) * (180 / Math.PI); //Field of View
 var camera = new THREE.PerspectiveCamera(fov, window.innerWidth / window.innerHeight, 0.1, distance);
 camera.position.set(0,5,0);
-camera.zoom = .5;
+camera.zoom = 1;
 camera.updateProjectionMatrix();
 
 //OrbitControls
