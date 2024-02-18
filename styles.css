@@ -1,6 +1,7 @@
 body {
     margin: 0;
     overflow: hidden;
+    background: #222222;
 }
 
 .body_var1 {
