@@ -140,6 +140,7 @@ loader.setDRACOLoader(dracoLoader);
     //Coffee guy is really big by default
     coffee_guy.scene.scale.set(0.2, 0.2, 0.2)
     coffee_guy.scene.rotation.set(0, Math.PI, 0)
+    coffee_guy.castShadow = true;
 
     var mixer = new THREE.AnimationMixer(coffee_guy.scene);
 
@@ -167,6 +168,7 @@ loader.setDRACOLoader(dracoLoader);
     //Lights and fog
     for (const element of [-10, -5, 0, 5, 10]) {
         var light = new THREE.SpotLight(0xffd0bb, 100, 0, Math.PI / 3, .3);
+        light.castShadow = true;
         const targetObject = new THREE.Object3D();
         targetObject.position.set(0, 0, element);
         scene1.add(targetObject);
@@ -178,6 +180,7 @@ loader.setDRACOLoader(dracoLoader);
     var ambient_light = new THREE.AmbientLight(0xffd0bb, .5);
 
     var focus_light = new THREE.SpotLight(0xffd0bb, 200, 0, Math.PI / 6, .3);
+    focus_light.castShadow = true;
     var focus_target = new THREE.Object3D();
     focus_target.position.set(0, 20, 0);
     scene1.add(focus_target);
@@ -272,8 +275,10 @@ window.addEventListener('mousemove', function (event) {
         if (target_name == "coffeeguy") {
             //console.log("that's coffeeguy!")
             focus_light.angle = Math.PI / 12
+            focus_light.intensity = 400;
         } else {
             focus_light.angle = Math.PI / 6
+            focus_light.intensity = 200;
         }
     } else {
         //console.log("no hit!")
