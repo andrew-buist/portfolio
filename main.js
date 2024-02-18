@@ -17,20 +17,20 @@ var myCanvas = document.getElementById('myCanvas');
 var clock = new THREE.Clock();
 
 //Bezier Paths
-var speed = 50
+var speed = 66;
 var subdivisions = 5000
 var fraction = 0;
 var tangent = new THREE.Vector3();
 var axis = new THREE.Vector3();
-var up = new THREE.Vector3(-1,0,0);
+var up = new THREE.Vector3(-1, 0, 0);
 var bezier_path = new THREE.CatmullRomCurve3(
     [
-    new THREE.Vector3(-20,0,10),
-    new THREE.Vector3(0,0,10),
-    new THREE.Vector3(0,0,-10),
-    new THREE.Vector3(20,0,-10)
+        new THREE.Vector3(-20, 0, 10),
+        new THREE.Vector3(0, 0, 10),
+        new THREE.Vector3(0, 0, -10),
+        new THREE.Vector3(20, 0, -10)
     ]
-    );
+);
 var bezier_points = bezier_path.getSpacedPoints(subdivisions)
 
 //Renderer
@@ -84,7 +84,8 @@ var links = {
     "link1": "https://cran.r-project.org/web/packages/smlmkalman/index.html",
     "link2": "https://www.linkedin.com/in/andrew-buist1",
     "link3": "https://github.com/andrew-buist/",
-    "link4": "https://twitter.com/drewbio"
+    "link4": "https://twitter.com/drewbio",
+    "coffeeguy": "./pages/sections/3d_modelling.html"
 }
 
 // Instantiate a loading manager
@@ -214,21 +215,20 @@ function animate() {
     if (mixer) mixer.update(delta);
 
     fraction += delta
-    var fraction_partition = Math.floor(fraction/speed * subdivisions)
-    console.log(fraction_partition)
-	
-	if ( fraction_partition > subdivisions ) {
-		fraction = 0;
-	}
+    var fraction_partition = Math.floor(fraction / speed * subdivisions)
+
+    if (fraction_partition > subdivisions) {
+        fraction = 0;
+    }
 
     coffee_guy.scene.position.x = bezier_points[fraction_partition].x;
     coffee_guy.scene.position.z = bezier_points[fraction_partition].z;
 
-    tangent = bezier_path.getTangent( fraction/speed ).normalize();
-    axis = axis.crossVectors( up, tangent ).normalize();
-    var radians = Math.acos( up.dot( tangent ) );
-	
-	coffee_guy.scene.quaternion.setFromAxisAngle( axis, radians );
+    tangent = bezier_path.getTangent(fraction / speed).normalize();
+    axis = axis.crossVectors(up, tangent).normalize();
+    var radians = Math.acos(up.dot(tangent));
+
+    coffee_guy.scene.quaternion.setFromAxisAngle(axis, radians);
 
     renderer.render(scene1, camera);
 
@@ -253,12 +253,10 @@ window.addEventListener('mousemove', function (event) {
 
         //multiple materials on one mesh are given the name "xxx", "xxx_1", ...
         target_name = target_intersect.object.name.split("_")[0]
-        //console.log(target_intersect.point);
 
         if (Object.keys(links).indexOf(target_name) >= 0) {
             myCanvas.style.cursor = "pointer"
             focus_light.position.z = target_intersect.point.z
-            focus_light.position.y = target_intersect.point.y
             focus_light.target.position.x = target_intersect.point.x;
             focus_light.target.position.y = target_intersect.point.y;
             focus_light.target.position.z = target_intersect.point.z;
@@ -269,6 +267,13 @@ window.addEventListener('mousemove', function (event) {
             focus_light.target.position.x = 0;
             focus_light.target.position.y = 20;
             focus_light.target.position.z = 0;
+        }
+
+        if (target_name == "coffeeguy") {
+            //console.log("that's coffeeguy!")
+            focus_light.angle = Math.PI / 12
+        } else {
+            focus_light.angle = Math.PI / 6
         }
     } else {
         //console.log("no hit!")
