@@ -1,7 +1,13 @@
 body {
     margin: 0;
     overflow: hidden;
-    background: #222222;
+}
+
+.body_var1 {
+    margin: 0;
+    overflow: hidden;
+    background: linear-gradient(135deg, #c7796f,#3e0350);
+    height: 100%;
 }
 
 .warning-box1 {
