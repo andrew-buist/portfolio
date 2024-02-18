@@ -41,6 +41,7 @@ var renderer = new THREE.WebGLRenderer({
 });
 
 //renderer settings
+renderer.setClearColor( 0x222222, 0);
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMap.enabled = true;
