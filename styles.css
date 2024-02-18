@@ -6,8 +6,7 @@ body {
 
 .headerbox1 {
     border: 5px outset black;
-    background: repeating-linear-gradient(
-            45deg,
+    background: repeating-linear-gradient(45deg,
             #b4a72f,
             #b4a72f 10px,
             #0f0e04 10px,
@@ -23,6 +22,45 @@ body {
     padding: 10px;
     width: fit-content;
     color: #ffffff;
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 
+}
+
+.scroll-container {
+    position: relative;
+    display: flex;
+}
+
+.scroll-card {
+    display: grid;
+    grid-auto-flow: column;
+    gap: 0.25rem;
+    width: 100%;
+    height: 60vh;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 16px;
+}
+
+.scroll-card img {
+    height: 60vh;
+    border-radius: 2%;
+}
+
+.div-parent{
+    position: relative;
+}
+
+.overlay-text {
+    position: absolute;
+    top: 2%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background: rgba(0,0,0,0.75);
+    width: fit-content;
+    color: #ffffff;
+    font-family: sans-serif;
+    text-align: center;
+    border-radius: 2%;
 }
