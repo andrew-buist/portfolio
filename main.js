@@ -161,9 +161,7 @@ loader.setDRACOLoader(dracoLoader);
         coffee_guy.scene
     ]
 
-    for (const scn of result) {
-        scene1.add(scn);
-    }
+    scene1.add(...result);
 
     //Lights and fog
     for (const element of [-10, -5, 0, 5, 10]) {
