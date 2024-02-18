@@ -17,7 +17,7 @@ var myCanvas = document.getElementById('myCanvas');
 var clock = new THREE.Clock();
 
 //Bezier Paths
-var speed = 10000
+var speed = 50
 var subdivisions = 5000
 var fraction = 0;
 var tangent = new THREE.Vector3();
@@ -213,16 +213,18 @@ function animate() {
 
     if (mixer) mixer.update(delta);
 
-    fraction += speed/subdivisions;
+    fraction += delta
+    var fraction_partition = Math.floor(fraction/speed * subdivisions)
+    console.log(fraction_partition)
 	
-	if ( fraction > subdivisions ) {
+	if ( fraction_partition > subdivisions ) {
 		fraction = 0;
 	}
 
-    coffee_guy.scene.position.x = bezier_points[fraction].x;
-    coffee_guy.scene.position.z = bezier_points[fraction].z;
+    coffee_guy.scene.position.x = bezier_points[fraction_partition].x;
+    coffee_guy.scene.position.z = bezier_points[fraction_partition].z;
 
-    tangent = bezier_path.getTangent( fraction/subdivisions ).normalize();
+    tangent = bezier_path.getTangent( fraction/speed ).normalize();
     axis = axis.crossVectors( up, tangent ).normalize();
     var radians = Math.acos( up.dot( tangent ) );
 	
