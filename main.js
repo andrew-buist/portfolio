@@ -68,6 +68,7 @@ orbit.minPolarAngle = Math.PI / 3;
 orbit.maxPolarAngle = Math.PI / 1.5;
 orbit.maxDistance = 6;
 orbit.target = new THREE.Vector3(-1, 5, 0)
+orbit.reversed = true;
 orbit.update()
 
 //Raycasting
