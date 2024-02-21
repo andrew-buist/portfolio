@@ -86,6 +86,7 @@ class OrbitControls extends EventDispatcher {
 		this.screenSpacePanning = true; // if false, pan orthogonal to world-space direction camera.up
 		this.keyPanSpeed = 7.0;	// pixels moved per arrow key push
 		this.zoomToCursor = false;
+		this.reversed = false; //is controller inverted?
 
 		// Set to true to automatically rotate around the target
 		// If auto-rotate is enabled, you must call controls.update() in your animation loop
@@ -689,9 +690,12 @@ class OrbitControls extends EventDispatcher {
 
 			const element = scope.domElement;
 
-			rotateLeft( 2 * Math.PI * rotateDelta.x / element.clientHeight ); // yes, height
+			//is controller inverted?
+			var inv = scope.reversed ? 1 : -1;
+			
+			rotateLeft(inv * 2 * Math.PI * rotateDelta.x / element.clientHeight ); // yes, height
 
-			rotateUp( 2 * Math.PI * rotateDelta.y / element.clientHeight );
+			rotateUp(inv * 2 * Math.PI * rotateDelta.y / element.clientHeight );
 
 			rotateStart.copy( rotateEnd );
 
