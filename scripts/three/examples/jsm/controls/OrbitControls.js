@@ -509,13 +509,13 @@ class OrbitControls extends EventDispatcher {
 
 		function rotateLeft( angle ) {
 
-			sphericalDelta.theta -= angle * inv;
+			sphericalDelta.theta -= angle * (scope.reversed ? 1 : -1);
 
 		}
 
 		function rotateUp( angle ) {
 
-			sphericalDelta.phi -= angle * inv;
+			sphericalDelta.phi -= angle * (scope.reversed ? 1 : -1);
 
 		}
 
@@ -689,9 +689,6 @@ class OrbitControls extends EventDispatcher {
 			rotateDelta.subVectors( rotateEnd, rotateStart ).multiplyScalar( scope.rotateSpeed );
 
 			const element = scope.domElement;
-
-			//is controller inverted?
-			var inv = scope.reversed ? 1 : -1;
 			
 			rotateLeft( 2 * Math.PI * rotateDelta.x / element.clientHeight ); // yes, height
 
