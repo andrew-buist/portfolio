@@ -79,6 +79,7 @@ class OrbitControls extends EventDispatcher {
 		// Set to false to disable rotating
 		this.enableRotate = true;
 		this.rotateSpeed = 1.0;
+		this.reversed = false; //is controller inverted?
 
 		// Set to false to disable panning
 		this.enablePan = true;
@@ -86,7 +87,6 @@ class OrbitControls extends EventDispatcher {
 		this.screenSpacePanning = true; // if false, pan orthogonal to world-space direction camera.up
 		this.keyPanSpeed = 7.0;	// pixels moved per arrow key push
 		this.zoomToCursor = false;
-		this.reversed = false; //is controller inverted?
 
 		// Set to true to automatically rotate around the target
 		// If auto-rotate is enabled, you must call controls.update() in your animation loop
