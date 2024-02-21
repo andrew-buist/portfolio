@@ -509,13 +509,13 @@ class OrbitControls extends EventDispatcher {
 
 		function rotateLeft( angle ) {
 
-			sphericalDelta.theta -= angle;
+			sphericalDelta.theta -= angle * inv;
 
 		}
 
 		function rotateUp( angle ) {
 
-			sphericalDelta.phi -= angle;
+			sphericalDelta.phi -= angle * inv;
 
 		}
 
@@ -693,9 +693,9 @@ class OrbitControls extends EventDispatcher {
 			//is controller inverted?
 			var inv = scope.reversed ? 1 : -1;
 			
-			rotateLeft(inv * 2 * Math.PI * rotateDelta.x / element.clientHeight ); // yes, height
+			rotateLeft( 2 * Math.PI * rotateDelta.x / element.clientHeight ); // yes, height
 
-			rotateUp(inv * 2 * Math.PI * rotateDelta.y / element.clientHeight );
+			rotateUp( 2 * Math.PI * rotateDelta.y / element.clientHeight );
 
 			rotateStart.copy( rotateEnd );
 
@@ -797,7 +797,7 @@ class OrbitControls extends EventDispatcher {
 
 					if ( event.ctrlKey || event.metaKey || event.shiftKey ) {
 
-						rotateLeft( 2 * Math.PI * scope.rotateSpeed / scope.domElement.clientHeight );
+						rotateLeft(2 * Math.PI * scope.rotateSpeed / scope.domElement.clientHeight );
 
 					} else {
 
