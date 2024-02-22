@@ -79,6 +79,7 @@ class OrbitControls extends EventDispatcher {
 		// Set to false to disable rotating
 		this.enableRotate = true;
 		this.rotateSpeed = 1.0;
+		this.reversed = false; //is controller inverted?
 
 		// Set to false to disable panning
 		this.enablePan = true;
@@ -508,13 +509,13 @@ class OrbitControls extends EventDispatcher {
 
 		function rotateLeft( angle ) {
 
-			sphericalDelta.theta -= angle;
+			sphericalDelta.theta -= angle * (scope.reversed ? 1 : -1);
 
 		}
 
 		function rotateUp( angle ) {
 
-			sphericalDelta.phi -= angle;
+			sphericalDelta.phi -= angle * (scope.reversed ? 1 : -1);
 
 		}
 
@@ -688,7 +689,7 @@ class OrbitControls extends EventDispatcher {
 			rotateDelta.subVectors( rotateEnd, rotateStart ).multiplyScalar( scope.rotateSpeed );
 
 			const element = scope.domElement;
-
+			
 			rotateLeft( 2 * Math.PI * rotateDelta.x / element.clientHeight ); // yes, height
 
 			rotateUp( 2 * Math.PI * rotateDelta.y / element.clientHeight );
@@ -793,7 +794,7 @@ class OrbitControls extends EventDispatcher {
 
 					if ( event.ctrlKey || event.metaKey || event.shiftKey ) {
 
-						rotateLeft( 2 * Math.PI * scope.rotateSpeed / scope.domElement.clientHeight );
+						rotateLeft(2 * Math.PI * scope.rotateSpeed / scope.domElement.clientHeight );
 
 					} else {
 
