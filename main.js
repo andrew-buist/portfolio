@@ -299,7 +299,7 @@ window.addEventListener('mouseup', function (event) {
         var goto_address = links[target_name];
         if (goto_address != undefined) {
             gtag('event', 'link_out', {
-                'url' : 'linkedOut'
+                'url' : goto_address
             });
             window.location.href = goto_address;
         }
