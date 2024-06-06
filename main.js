@@ -298,6 +298,9 @@ window.addEventListener('mouseup', function (event) {
         //redirect to links
         var goto_address = links[target_name];
         if (goto_address != undefined) {
+            gtag('event', 'link_out', {
+                'url' : goto_address
+            });
             window.location.href = goto_address;
         }
     }
