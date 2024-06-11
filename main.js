@@ -17,7 +17,7 @@ var myCanvas = document.getElementById('myCanvas');
 var clock = new THREE.Clock();
 
 //Bezier Paths
-var speed = 66;
+var speed = 10;
 var subdivisions = 5000
 var fraction = 0;
 var tangent = new THREE.Vector3();
@@ -25,11 +25,12 @@ var axis = new THREE.Vector3();
 var up = new THREE.Vector3(-1, 0, 0);
 var bezier_path = new THREE.CatmullRomCurve3(
     [
-        new THREE.Vector3(-20, 0, 10),
-        new THREE.Vector3(0, 0, 10),
-        new THREE.Vector3(0, 0, -10),
-        new THREE.Vector3(20, 0, -10)
-    ]
+        new THREE.Vector3(7.25, 2, 6),
+        new THREE.Vector3(6.5, 2, 7),
+        new THREE.Vector3(5.75, 2, 6),
+        new THREE.Vector3(6.5, 2, 5)
+    ],
+    true
 );
 var bezier_points = bezier_path.getSpacedPoints(subdivisions)
 
@@ -202,7 +203,7 @@ if (active_scene == scene1) {
 
 function render() {
     //constrain movement to bbox
-    orbit.target.clamp(new THREE.Vector3(-1.5, 5, -6), new THREE.Vector3(1.5, 5, 6))
+    //orbit.target.clamp(new THREE.Vector3(-1.5, 5, -6), new THREE.Vector3(1.5, 5, 6))
     //exposure
     renderer.toneMappingExposure = Math.pow(0.7, 5.0);  // -> exposure: 0.168
     renderer.render(active_scene, camera);
@@ -226,6 +227,7 @@ function animate() {
 
     coffee_guy.scene.position.x = bezier_points[fraction_partition].x;
     coffee_guy.scene.position.z = bezier_points[fraction_partition].z;
+    coffee_guy.scene.position.y = bezier_points[fraction_partition].y;
 
     tangent = bezier_path.getTangent(fraction / speed).normalize();
     axis = axis.crossVectors(up, tangent).normalize();
