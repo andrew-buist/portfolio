@@ -45,7 +45,7 @@ var renderer = new THREE.WebGLRenderer({
 });
 
 //renderer settings
-renderer.setClearColor( 0x222222, 0);
+renderer.setClearColor(0x222222, 0);
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMap.enabled = true;
@@ -94,21 +94,18 @@ var links = {
 // Instantiate a loading manager
 var manager = new THREE.LoadingManager();
 
-manager.onStart = function() {
-	const uiElement = document.querySelector( '#loadingscreen' );
-}
-
 manager.onProgress = function (url, itemsLoaded, itemsTotal) {
-    var load_percent = ((itemsLoaded / itemsTotal)*100).toFixed(2)
+    var load_percent = ((itemsLoaded / itemsTotal) * 100).toFixed(2)
     console.log(load_percent)
     document.title = "Loading: " + load_percent
 }
 
-manager.onLoad = function() {
-	active_scene = scene1;
-    	document.title = init_title;
-	uiElement.style.display = 'none';
-    	document.body.appendChild(renderer.domElement);
+manager.onLoad = function () {
+    active_scene = scene1;
+    document.title = init_title;
+    const uiElement = document.querySelector('#loadingscreen');
+    uiElement.style.display = 'none';
+    document.body.appendChild(renderer.domElement);
 }
 
 //Instantiate a loader
@@ -150,7 +147,7 @@ function addAnimatedScene(gltf, scale) {
     })
     return mixer
 }
-                
+
 
 //Scene1 (main) .adds
 {
@@ -182,7 +179,7 @@ function addAnimatedScene(gltf, scale) {
     var mixer = addAnimatedScene(coffee_guy, 0.2)
 
     addTransparency(transparent_mesh)
-    
+
     //Lights and fog
     for (const element of [-10, -5, 0, 5, 10]) {
         var light = new THREE.SpotLight(0xffd0bb, 100, 0, Math.PI / 3, .3);
@@ -312,7 +309,7 @@ window.addEventListener('mouseup', function (event) {
         var goto_address = links[target_name];
         if (goto_address != undefined) {
             gtag('event', 'link_out', {
-                'url' : goto_address
+                'url': goto_address
             });
             window.location.href = goto_address;
         }
