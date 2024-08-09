@@ -120,7 +120,8 @@ function init() {
         coffee_guy
     ] = [
         loader.load("./3d_scenery/museum_hall.glb", function (gltf) {
-            scene1.add(gltf.scene)
+            scene1.add(gltf.scene);
+            return gltf
         }
                    ),
         loader.load("./3d_scenery/museum_hall_plants_alpha.glb", function(gltf){
@@ -131,23 +132,28 @@ function init() {
         }
     })
             
-            scene1.add(gltf.scene)
+            scene1.add(gltf.scene);
+            return gltf
         }
                    ),
         loader.load("./3d_scenery/museum_hall_painting1.glb", function (gltf) {
-            scene1.add(gltf.scene)
+            scene1.add(gltf.scene);
+            return gltf
         }
                    ),
         loader.load("./3d_scenery/museum_hall_painting2.glb", function (gltf) {
-            scene1.add(gltf.scene)
+            scene1.add(gltf.scene);
+            return gltf
         }
                    ),
         loader.load("./3d_scenery/museum_hall_painting3.glb", function (gltf) {
-            scene1.add(gltf.scene)
+            scene1.add(gltf.scene);
+            return gltf
         }
                    ),
         loader.load("./3d_scenery/museum_hall_painting4.glb", function (gltf) {
-            scene1.add(gltf.scene)
+            scene1.add(gltf.scene);
+            return gltf
         }
                    ),
         loader.load("./3d_scenery/coffee_guy.glb", function (gltf) {
@@ -157,7 +163,8 @@ function init() {
             gltf.scene.rotation.set(0, Math.PI, 0)
             gltf.castShadow = true;
 
-            scene1.add(gltf.scene)
+            scene1.add(gltf.scene);
+            return gltf
         }
                    )
     ]
