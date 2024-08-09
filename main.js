@@ -113,7 +113,7 @@ loader.setDRACOLoader(dracoLoader);
 ////
 
 //Scene1 (main) .adds
-{
+function init() {
     //asset loader to push an array on promise
     var [
         base_mesh,
@@ -195,6 +195,7 @@ loader.setDRACOLoader(dracoLoader);
 
 //Render loop
 if (active_scene == scene1) {
+    init();
     render();
     animate();
 }
