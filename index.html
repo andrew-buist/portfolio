@@ -2,7 +2,7 @@
 
 <head>
 	<title>Andrew Buist Portfolio</title>
-	<link rel="icon" type="image/x-icon" href = "images/favicon.ico">
+	<link rel="icon" type="image/x-icon" href="images/favicon.ico">
 	<link rel="stylesheet" href="styles.css">
 	<script type="importmap">
 		 {
@@ -17,17 +17,18 @@
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-995Z1QNR63"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+	window.dataLayer = window.dataLayer || [];
+	function gtag() { dataLayer.push(arguments); }
+	gtag('js', new Date());
 
-  gtag('config', 'G-995Z1QNR63');
+	gtag('config', 'G-995Z1QNR63');
 </script>
 
 <body>
-	<div id="loadingscreen"
-	class = "loading-screen1"
-	style = "background-image: url('./images/museum_load_vignette.png');">
+	<div id="loadingscreen" class="loading-screen1" style="background-image: url('./images/museum_load_vignette.png');">
+		<div class="loading-bar-container1">
+			<div id = "loadingbar" class = "loading-bar-agent1"></div>
+		</div>
 	</div>
 	<canvas id="myCanvas"></canvas>
 	<script type="module" src="./main.js"></script>

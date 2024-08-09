@@ -7,6 +7,7 @@ import { DRACOLoader } from './scripts/three/examples/jsm/loaders/DRACOLoader.js
 //Document
 var init_title = document.title
 var uiElement = document.querySelector('#loadingscreen');
+var uiLoadingBar = document.querySelector('#loadingbar')
 
 //Scenes
 var active_scene = new THREE.Scene();
@@ -96,19 +97,17 @@ var links = {
 var manager = new THREE.LoadingManager();
 
 manager.onStart = function() {
-    uiElement.style.display = 'inherit';
+    uiElement.style.display = '';
 }
 
 manager.onProgress = function (url, itemsLoaded, itemsTotal) {
     var load_percent = ((itemsLoaded / itemsTotal) * 100).toFixed(2)
+    uiLoadingBar.style.width = load_percent + "%"
     console.log(load_percent)
-    document.title = "Loading: " + load_percent
 }
 
 manager.onLoad = function () {
-    console.log("loading complete")
     active_scene = scene1;
-    document.title = init_title;
     uiElement.style.display = 'none';
     document.body.appendChild(renderer.domElement);
 }
