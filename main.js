@@ -8,7 +8,6 @@ import { DRACOLoader } from './scripts/three/examples/jsm/loaders/DRACOLoader.js
 //Scenes
 var active_scene = new THREE.Scene();
 var scene1 = new THREE.Scene();
-var scene2 = new THREE.Scene();
 
 //Canvas
 var myCanvas = document.getElementById('myCanvas');
@@ -193,13 +192,6 @@ function init() {
     scene1.fog = new THREE.Fog(0x222222, 10, 30);
 }
 
-//Render loop
-if (active_scene == scene1) {
-    init();
-    render();
-    animate();
-}
-
 //Footer Functions for Rendering and Window Listeners//
 
 function render() {
@@ -238,6 +230,13 @@ function animate() {
 
     renderer.render(scene1, camera);
 
+}
+
+//Main Loop
+{
+    init();
+    render();
+    animate();
 }
 
 // Window sizing
