@@ -101,6 +101,7 @@ manager.onProgress = function (url, itemsLoaded, itemsTotal) {
 }
 
 manager.onLoad = function () {
+    console.log("loading complete")
     active_scene = scene1;
     document.title = init_title;
     const uiElement = document.querySelector('#loadingscreen');
@@ -171,14 +172,12 @@ function addAnimatedScene(gltf, scale) {
     ])
 
     addScene(base_mesh)
-    addScene(transparent_mesh)
+    addTransparency(transparent_mesh)
     addScene(interactive_mesh1)
     addScene(interactive_mesh2)
     addScene(interactive_mesh3)
     addScene(interactive_mesh4)
     var mixer = addAnimatedScene(coffee_guy, 0.2)
-
-    addTransparency(transparent_mesh)
 
     //Lights and fog
     for (const element of [-10, -5, 0, 5, 10]) {
