@@ -9,9 +9,6 @@ import { DRACOLoader } from './scripts/three/examples/jsm/loaders/DRACOLoader.js
 var active_scene = new THREE.Scene();
 var scene1 = new THREE.Scene();
 
-//Animation Mixer
-let mixer;
-
 //Canvas
 var myCanvas = document.getElementById('myCanvas');
 
@@ -133,6 +130,7 @@ function init() {
             child.material.trasparent = true;
         }
     })
+            
             scene1.add(gltf.scene)
         }
                    ),
@@ -159,18 +157,18 @@ function init() {
             gltf.scene.rotation.set(0, Math.PI, 0)
             gltf.castShadow = true;
 
-            mixer = new THREE.AnimationMixer(gltf.scene);
-            gltf.animations.forEach((clip) => {
-
-                mixer.clipAction(clip).play();
-
-            });
-
             scene1.add(gltf.scene)
         }
                    )
     ]
 
+    var mixer = new THREE.AnimationMixer(coffee_guy.scene);
+    coffee_guy.animations.forEach((clip) => {
+
+                mixer.clipAction(clip).play();
+
+            });
+    
     //Lights and fog
     for (const element of [-10, -5, 0, 5, 10]) {
         var light = new THREE.SpotLight(0xffd0bb, 100, 0, Math.PI / 3, .3);
@@ -236,14 +234,6 @@ function animate() {
 
     renderer.render(scene1, camera);
 
-}
-
-//Main Loop
-{
-    init();
-    active_scene = scene1;
-    render();
-    animate();
 }
 
 // Window sizing
@@ -314,4 +304,12 @@ window.addEventListener('mouseup', function (event) {
         }
     }
 });
-////
+
+//Main Loop
+{
+    init();
+    active_scene = scene1;
+    render();
+    animate();
+}
+
