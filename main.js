@@ -149,7 +149,7 @@ function addAnimatedScene(gltf, scale) {
         interactive_mesh3,
         interactive_mesh4,
         coffee_guy
-    ] = [
+    ] = await [
         loader.loadAsync("./3d_scenery/museum_hall.glb"),
         loader.loadAsync("./3d_scenery/museum_hall_plants_alpha.glb"),
         loader.loadAsync("./3d_scenery/museum_hall_painting1.glb"),
