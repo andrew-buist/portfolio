@@ -259,7 +259,7 @@ function onWindowResize() {
     renderer.setSize(window.innerWidth, window.innerHeight)
 }
 
-window.addEventListener('mousemove', function (event) {
+window.addEventListener('pointermove', function (event) {
     pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
     pointer.y = - (event.clientY / window.innerHeight) * 2 + 1;
     raycaster.setFromCamera(pointer, camera);
@@ -298,12 +298,12 @@ window.addEventListener('mousemove', function (event) {
     }
 })
 
-window.addEventListener('mousedown', function (event) {
+window.addEventListener('pointerdown', function (event) {
     startX = event.clientX;
     startY = event.clientY;
 });
 
-window.addEventListener('mouseup', function (event) {
+window.addEventListener('pointerup', function (event) {
     var diffX = Math.abs(event.clientX - startX);
     var diffY = Math.abs(event.clientY - startY);
 
