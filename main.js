@@ -16,6 +16,7 @@ var myCanvas = document.getElementById('myCanvas');
 
 //Load Screen Div
 var load_div = document.createElement("DIV");
+document.body.appendChild(load_div)
 load_div.setAttribute("id", "loadscreen");
 document.getElementById("loadscreen").style.backgroundImage = "./images/museum_load_vignette.png";
 
@@ -99,10 +100,6 @@ var links = {
 
 // Instantiate a loading manager
 var manager = new THREE.LoadingManager();
-
-manager.onStart = function() {
-    document.body.appendChild(load_div)
-}
 
 manager.onProgress = function (url, itemsLoaded, itemsTotal) {
     var load_percent = ((itemsLoaded / itemsTotal)*100).toFixed(2)
