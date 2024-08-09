@@ -14,6 +14,12 @@ var scene1 = new THREE.Scene();
 //Canvas
 var myCanvas = document.getElementById('myCanvas');
 
+//Load Screen Div
+var load_div = document.createElement("DIV");
+load_div.setAttribute("id", "loadscreen");
+document.getElementById("loadscreen").style.backgroundImage = "./images/museum_load_vignette.png";
+
+
 //Clock 
 var clock = new THREE.Clock();
 
@@ -51,7 +57,6 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.gammaInput = true;
 renderer.gammaOutput = true;
 renderer.antialias = true;
-document.body.appendChild(renderer.domElement);
 
 //Camera
 var height = window.innerHeight;
@@ -96,7 +101,7 @@ var links = {
 var manager = new THREE.LoadingManager();
 
 manager.onStart = function() {
-    
+    document.body.appendChild(load_div)
 }
 
 manager.onProgress = function (url, itemsLoaded, itemsTotal) {
@@ -106,8 +111,10 @@ manager.onProgress = function (url, itemsLoaded, itemsTotal) {
 }
 
 manager.onLoad = function() {
-active_scene = scene1;
-document.title = init_title
+    active_scene = scene1;
+    document.title = init_title
+    document.body.removeChild(load_div)
+    document.body.appendChild(renderer.domElement);
 }
 
 //Instantiate a loader
