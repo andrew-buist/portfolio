@@ -139,7 +139,7 @@ function addAnimatedScene(gltf, scale) {
                 
 
 //Scene1 (main) .adds
-async function init() {
+{
     //asset loader to push an array on promise
     var [
         base_mesh,
@@ -305,7 +305,6 @@ window.addEventListener('mouseup', function (event) {
 
 //Main Loop
 {
-    init();
     active_scene = scene1;
     render();
     animate();
