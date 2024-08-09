@@ -97,10 +97,6 @@ manager.onProgress = function (url, itemsLoaded, itemsTotal) {
     console.log(itemsLoaded / itemsTotal)
 }
 
-manager.onLoad = function () {
-    active_scene = scene1
-};
-
 //Instantiate a loader
 var loader = new GLTFLoader(manager);
 
@@ -235,6 +231,7 @@ function animate() {
 //Main Loop
 {
     init();
+    active_scene = scene1;
     render();
     animate();
 }
