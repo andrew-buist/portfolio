@@ -96,7 +96,6 @@ var manager = new THREE.LoadingManager();
 
 manager.onStart = function() {
 	const uiElement = document.querySelector( '#loadingscreen' );
-	uiElement.style.display = 'none';
 }
 
 manager.onProgress = function (url, itemsLoaded, itemsTotal) {
@@ -106,10 +105,10 @@ manager.onProgress = function (url, itemsLoaded, itemsTotal) {
 }
 
 manager.onLoad = function() {
-    active_scene = scene1;
-    document.title = init_title
-    document.body.removeChild(load_div)
-    document.body.appendChild(renderer.domElement);
+	active_scene = scene1;
+    	document.title = init_title;
+	uiElement.style.display = 'none';
+    	document.body.appendChild(renderer.domElement);
 }
 
 //Instantiate a loader
