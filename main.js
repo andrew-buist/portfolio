@@ -232,7 +232,7 @@ function animate() {
     fraction += delta
     var fraction_partition = Math.floor(fraction / speed * subdivisions)
 
-    if (fraction_partition > subdivisions) {
+    if (fraction_partition >= subdivisions) {
         fraction = 0;
     }
 
