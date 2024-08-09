@@ -95,7 +95,7 @@ var links = {
 var manager = new THREE.LoadingManager();
 
 manager.onStart = function() {
-    const uiElement = document.querySelector( '#overlay' );
+	const uiElement = document.querySelector( '#loadingscreen' );
 	uiElement.style.display = 'none';
 }
 
