@@ -113,7 +113,7 @@ function addScene(gltf) {
 
 //After load functions
 function addTransparentScene(gltf) {
-    gltf.scene.traverse(function (child) {
+    gltf.traverse(function (child) {
         if (child instanceof THREE.Mesh) {
             child.material.alphaHash = true;
             child.material.trasparent = true;
