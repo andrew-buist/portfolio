@@ -139,7 +139,7 @@ function addAnimatedScene(gltf, scale) {
                 
 
 //Scene1 (main) .adds
-async init() {
+async function init() {
     //asset loader to push an array on promise
     var [
         base_mesh,
