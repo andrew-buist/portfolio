@@ -112,8 +112,8 @@ function addScene(gltf) {
 }
 
 //After load functions
-function addTransparentScene(gltf) {
-    gltf.traverse(function (child) {
+function addTransparency(gltf) {
+    gltf.scene.traverse(function (child) {
         if (child instanceof THREE.Mesh) {
             child.material.alphaHash = true;
             child.material.trasparent = true;
@@ -160,12 +160,14 @@ function addAnimatedScene(gltf, scale) {
     ]
 
     addScene(base_mesh)
-    addTransparentScene(transparent_mesh)
+    addScene(transparent_mesh)
     addScene(interactive_mesh1)
     addScene(interactive_mesh2)
     addScene(interactive_mesh3)
     addScene(interactive_mesh4)
     var mixer = addAnimatedScene(coffee_guy, 0.2)
+
+    addTransparency(transparent_mesh)
     
     //Lights and fog
     for (const element of [-10, -5, 0, 5, 10]) {
