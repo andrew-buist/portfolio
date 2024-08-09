@@ -2,6 +2,8 @@ import * as THREE from './scripts/three/build/three.module.js'
 import { OrbitControls } from './scripts/three/examples/jsm/controls/OrbitControls.js'
 import { GLTFLoader } from './scripts/three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from './scripts/three/examples/jsm/loaders/DRACOLoader.js'
+import { RGBELoader } from './scripts/three/examples/jsm/loaders/RGBELoader.js';
+
 
 //KEY VARIABLES//
 //Document
@@ -12,6 +14,16 @@ var uiLoadingBar = document.querySelector('#loadingbar')
 //Scenes
 var active_scene = new THREE.Scene();
 var scene1 = new THREE.Scene();
+
+new RGBELoader()
+					.setPath( './images/threejs_assets/' )
+					.load( 'puresky.hdr', function ( texture ) {
+
+						texture.mapping = THREE.EquirectangularReflectionMapping;
+
+						scene1.background = texture;
+						scene1.environment = texture;
+                    });
 
 //Animation mixer array
 var mixer_arr = [];
@@ -50,7 +62,6 @@ var renderer = new THREE.WebGLRenderer({
 });
 
 //renderer settings
-renderer.setClearColor(0x222222, 0);
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMap.enabled = true;
@@ -58,6 +69,7 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.gammaInput = true;
 renderer.gammaOutput = true;
 renderer.antialias = true;
+renderer.toneMapping = THREE.ReinhardToneMapping
 
 //Camera
 var distance = 2500;
@@ -133,7 +145,7 @@ function addScene(gltf) {
 function addTransparency(gltf) {
     gltf.scene.traverse(function (child) {
         if (child instanceof THREE.Mesh) {
-            child.material.alphaHash = true;
+            //child.material.alphaHash = true;
             child.material.trasparent = true;
         }
     })
@@ -143,7 +155,6 @@ function addTransparency(gltf) {
 function addAnimatedScene(gltf, scale) {
     gltf.scene.scale.set(scale, scale, scale)
     gltf.scene.rotation.set(0, Math.PI, 0)
-    gltf.castShadow = true;
 
     scene1.add(gltf.scene);
     var mixer = new THREE.AnimationMixer(gltf.scene);
@@ -197,8 +208,6 @@ function addAnimatedScene(gltf, scale) {
         scene1.add(light);
     }
 
-    var ambient_light = new THREE.AmbientLight(0xffd0bb, .5);
-
     var focus_light = new THREE.SpotLight(0xffd0bb, 200, 0, Math.PI / 6, .3);
     focus_light.castShadow = true;
     var focus_target = new THREE.Object3D();
@@ -208,8 +217,7 @@ function addAnimatedScene(gltf, scale) {
     focus_light.position.set(0, 10, 0);
     scene1.add(focus_light)
 
-    scene1.add(ambient_light);
-    scene1.fog = new THREE.Fog(0x222222, 10, 30);
+    scene1.fog = new THREE.Fog(0xffffff, 15, 50);
 }
 
 //Footer Functions for Rendering and Window Listeners//
