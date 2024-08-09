@@ -4,6 +4,8 @@ import { GLTFLoader } from './scripts/three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from './scripts/three/examples/jsm/loaders/DRACOLoader.js'
 
 //KEY VARIABLES//
+//Document
+var init_title = document.title
 
 //Scenes
 var active_scene = new THREE.Scene();
@@ -94,7 +96,14 @@ var links = {
 var manager = new THREE.LoadingManager();
 
 manager.onProgress = function (url, itemsLoaded, itemsTotal) {
-    console.log(itemsLoaded / itemsTotal)
+    var load_percent = ((itemsLoaded / itemsTotal)*100).toFixed(2)
+    console.log(load_percent)
+    document.title = "Loading: " + load_percent
+}
+
+manager.onLoad = function() {
+active_scene = scene1;
+document.title = init_title
 }
 
 //Instantiate a loader
@@ -307,7 +316,6 @@ window.addEventListener('mouseup', function (event) {
 
 //Main Loop
 {
-    active_scene = scene1;
     render();
     animate();
 }
