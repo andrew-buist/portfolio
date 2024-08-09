@@ -14,21 +14,6 @@ var scene1 = new THREE.Scene();
 //Canvas
 var myCanvas = document.getElementById('myCanvas');
 
-//Load Screen Div
-var load_div = document.createElement("DIV");
-document.body.appendChild(load_div)
-load_div.setAttribute("id", "loadscreen");
-document.getElementById("loadscreen").style.zIndex = "9";
-document.getElementById("loadscreen").style.width = "100%";
-document.getElementById("loadscreen").style.height = "100%";
-document.getElementById("loadscreen").style.backgroundImage = "./images/museum_load_vignette.png";
-document.getElementById("loadscreen").style.backgroundRepeat = "no-repeat";
-document.getElementById("loadscreen").style.backgroundSize = "cover";
-document.getElementById("loadscreen").style.top = "0";
-document.getElementById("loadscreen").style.position = "fixed";
-document.body.style.margin = "0";
-document.body.style.padding = "0";
-
 //Clock 
 var clock = new THREE.Clock();
 
@@ -108,6 +93,11 @@ var links = {
 
 // Instantiate a loading manager
 var manager = new THREE.LoadingManager();
+
+manager.onStart = function() {
+    var ctx = myCanvas.getContext("2d")
+    ctx.drawImage("./images/museum_load_vignette.png")
+}
 
 manager.onProgress = function (url, itemsLoaded, itemsTotal) {
     var load_percent = ((itemsLoaded / itemsTotal)*100).toFixed(2)
