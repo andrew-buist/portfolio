@@ -107,8 +107,39 @@ loader.setDRACOLoader(dracoLoader);
 
 ////
 
+function addScene(gltf) {
+    scene1.add(gltf.scene)
+}
+
+//After load functions
+function addTransparentScene(gltf) {
+    gltf.scene.traverse(function (child) {
+        if (child instanceof THREE.Mesh) {
+            child.material.alphaHash = true;
+            child.material.trasparent = true;
+        }
+    })
+    scene1.add(gltf.scene)
+}
+
+function addAnimatedScene(gltf, scale) {
+    gltf.scene.scale.set(scale, scale, scale)
+    gltf.scene.rotation.set(0, Math.PI, 0)
+    gltf.castShadow = true;
+
+    scene1.add(gltf.scene);
+    var mixer = new THREE.AnimationMixer(gltf.scene);
+    gltf.animations.forEach((clip) => {
+
+        mixer.clipAction(clip).play();
+
+    })
+    return mixer
+}
+                
+
 //Scene1 (main) .adds
-function init() {
+async init() {
     //asset loader to push an array on promise
     var [
         base_mesh,
@@ -119,62 +150,22 @@ function init() {
         interactive_mesh4,
         coffee_guy
     ] = [
-        loader.load("./3d_scenery/museum_hall.glb", function (gltf) {
-            scene1.add(gltf.scene);
-            return gltf
-        }
-                   ),
-        loader.load("./3d_scenery/museum_hall_plants_alpha.glb", function(gltf){
-            gltf.scene.traverse(function (child) {
-        if (child instanceof THREE.Mesh) {
-            child.material.alphaHash = true;
-            child.material.trasparent = true;
-        }
-    })
-            
-            scene1.add(gltf.scene);
-            return gltf
-        }
-                   ),
-        loader.load("./3d_scenery/museum_hall_painting1.glb", function (gltf) {
-            scene1.add(gltf.scene);
-            return gltf
-        }
-                   ),
-        loader.load("./3d_scenery/museum_hall_painting2.glb", function (gltf) {
-            scene1.add(gltf.scene);
-            return gltf
-        }
-                   ),
-        loader.load("./3d_scenery/museum_hall_painting3.glb", function (gltf) {
-            scene1.add(gltf.scene);
-            return gltf
-        }
-                   ),
-        loader.load("./3d_scenery/museum_hall_painting4.glb", function (gltf) {
-            scene1.add(gltf.scene);
-            return gltf
-        }
-                   ),
-        loader.load("./3d_scenery/coffee_guy.glb", function (gltf) {
-            
-            //Coffee guy is really big by default
-            gltf.scene.scale.set(0.2, 0.2, 0.2)
-            gltf.scene.rotation.set(0, Math.PI, 0)
-            gltf.castShadow = true;
-
-            scene1.add(gltf.scene);
-            return gltf
-        }
-                   )
+        loader.loadAsync("./3d_scenery/museum_hall.glb"),
+        loader.loadAsync("./3d_scenery/museum_hall_plants_alpha.glb"),
+        loader.loadAsync("./3d_scenery/museum_hall_painting1.glb"),
+        loader.loadAsync("./3d_scenery/museum_hall_painting2.glb"),
+        loader.loadAsync("./3d_scenery/museum_hall_painting3.glb"),
+        loader.loadAsync("./3d_scenery/museum_hall_painting4.glb"),
+        loader.loadAsync("./3d_scenery/coffee_guy.glb")
     ]
 
-    var mixer = new THREE.AnimationMixer(coffee_guy.scene);
-    coffee_guy.animations.forEach((clip) => {
-
-                mixer.clipAction(clip).play();
-
-            });
+    addScene(base_mesh)
+    addTransparentScene(transparent_mesh)
+    addScene(interactive_mesh1)
+    addScene(interactive_mesh2)
+    addScene(interactive_mesh3)
+    addScene(interactive_mesh4)
+    addAnimatedScene(coffee_guy, 0.2)
     
     //Lights and fog
     for (const element of [-10, -5, 0, 5, 10]) {
