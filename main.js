@@ -13,6 +13,9 @@ var uiLoadingBar = document.querySelector('#loadingbar')
 var active_scene = new THREE.Scene();
 var scene1 = new THREE.Scene();
 
+//Animation mixer array
+var mixer_arr = [];
+
 //Canvas
 var myCanvas = document.getElementById('myCanvas');
 var height = window.innerHeight;
@@ -149,7 +152,7 @@ function addAnimatedScene(gltf, scale) {
         mixer.clipAction(clip).play();
 
     })
-    return mixer
+    mixer_arr.push(mixer)
 }
 
 
@@ -180,7 +183,7 @@ function addAnimatedScene(gltf, scale) {
     addScene(interactive_mesh2)
     addScene(interactive_mesh3)
     addScene(interactive_mesh4)
-    var mixer = addAnimatedScene(coffee_guy, 0.2)
+    addAnimatedScene(coffee_guy, 0.2)
 
     //Lights and fog
     for (const element of [-10, -5, 0, 5, 10]) {
@@ -226,7 +229,10 @@ function animate() {
 
     var delta = clock.getDelta();
 
-    if (mixer) mixer.update(delta);
+    //iterate through array and update to delta time
+    if (mixer_arr.length > 0) {
+        mixer_arr.forEach((element) => element.update(delta));
+    }
 
     fraction += delta
     var fraction_partition = Math.floor(fraction / speed * subdivisions)
