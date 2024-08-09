@@ -316,7 +316,7 @@ window.addEventListener('mouseup', function (event) {
     }
 });
 
-//Main Loop
+//Main Loop//
 {
     render();
     animate();
