@@ -95,6 +95,10 @@ var links = {
 // Instantiate a loading manager
 var manager = new THREE.LoadingManager();
 
+manager.onStart = function() {
+    
+}
+
 manager.onProgress = function (url, itemsLoaded, itemsTotal) {
     var load_percent = ((itemsLoaded / itemsTotal)*100).toFixed(2)
     console.log(load_percent)
