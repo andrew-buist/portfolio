@@ -165,7 +165,7 @@ async init() {
     addScene(interactive_mesh2)
     addScene(interactive_mesh3)
     addScene(interactive_mesh4)
-    addAnimatedScene(coffee_guy, 0.2)
+    var mixer = addAnimatedScene(coffee_guy, 0.2)
     
     //Lights and fog
     for (const element of [-10, -5, 0, 5, 10]) {
