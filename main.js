@@ -9,6 +9,9 @@ import { DRACOLoader } from './scripts/three/examples/jsm/loaders/DRACOLoader.js
 var active_scene = new THREE.Scene();
 var scene1 = new THREE.Scene();
 
+//Animation Mixer
+let mixer;
+
 //Canvas
 var myCanvas = document.getElementById('myCanvas');
 
@@ -156,7 +159,7 @@ function init() {
             gltf.scene.rotation.set(0, Math.PI, 0)
             gltf.castShadow = true;
 
-            var mixer = new THREE.AnimationMixer(gltf.scene);
+            mixer = new THREE.AnimationMixer(gltf.scene);
             gltf.animations.forEach((clip) => {
 
                 mixer.clipAction(clip).play();
