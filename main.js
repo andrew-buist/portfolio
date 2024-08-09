@@ -95,8 +95,8 @@ var links = {
 var manager = new THREE.LoadingManager();
 
 manager.onStart = function() {
-    var ctx = myCanvas.getContext("2d")
-    ctx.drawImage("./images/museum_load_vignette.png")
+    const uiElement = document.querySelector( '#overlay' );
+	uiElement.style.display = 'none';
 }
 
 manager.onProgress = function (url, itemsLoaded, itemsTotal) {
