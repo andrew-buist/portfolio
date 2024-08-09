@@ -149,7 +149,7 @@ function addAnimatedScene(gltf, scale) {
         interactive_mesh3,
         interactive_mesh4,
         coffee_guy
-    ] = await [
+    ] = await Promise.all([
         loader.loadAsync("./3d_scenery/museum_hall.glb"),
         loader.loadAsync("./3d_scenery/museum_hall_plants_alpha.glb"),
         loader.loadAsync("./3d_scenery/museum_hall_painting1.glb"),
@@ -157,7 +157,7 @@ function addAnimatedScene(gltf, scale) {
         loader.loadAsync("./3d_scenery/museum_hall_painting3.glb"),
         loader.loadAsync("./3d_scenery/museum_hall_painting4.glb"),
         loader.loadAsync("./3d_scenery/coffee_guy.glb")
-    ]
+    ])
 
     addScene(base_mesh)
     addScene(transparent_mesh)
