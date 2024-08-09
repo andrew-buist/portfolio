@@ -13,6 +13,8 @@ var scene1 = new THREE.Scene();
 
 //Canvas
 var myCanvas = document.getElementById('myCanvas');
+var height = window.innerHeight;
+var width = window.innerWidth;
 
 //Clock 
 var clock = new THREE.Clock();
@@ -53,8 +55,6 @@ renderer.gammaOutput = true;
 renderer.antialias = true;
 
 //Camera
-var height = window.innerHeight;
-var width = window.innerWidth;
 var distance = 2500;
 var diag = Math.sqrt((height * height) + (width * width))
 var fov = 2 * Math.atan((diag) / (2 * distance)) * (180 / Math.PI); //Field of View
