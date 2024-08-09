@@ -122,7 +122,7 @@ function init() {
         interactive_mesh3,
         interactive_mesh4,
         coffee_guy
-    ] = await Promise.all([
+    ] = [
         loader.loadAsync("./3d_scenery/museum_hall.glb"),
         loader.loadAsync("./3d_scenery/museum_hall_plants_alpha.glb"),
         loader.loadAsync("./3d_scenery/museum_hall_painting1.glb"),
@@ -130,7 +130,7 @@ function init() {
         loader.loadAsync("./3d_scenery/museum_hall_painting3.glb"),
         loader.loadAsync("./3d_scenery/museum_hall_painting4.glb"),
         loader.loadAsync("./3d_scenery/coffee_guy.glb")
-    ])
+    ]
 
     transparent_mesh.scene.traverse(function (child) {
         if (child instanceof THREE.Mesh) {
