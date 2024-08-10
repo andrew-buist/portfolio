@@ -16,14 +16,13 @@ var active_scene = new THREE.Scene();
 var scene1 = new THREE.Scene();
 
 new RGBELoader()
-					.setPath( './images/threejs_assets/' )
-					.load( 'puresky.hdr', function ( texture ) {
+    .setPath('./images/threejs_assets/')
+    .load('cloudysky.hdr', function (texture) {
+        texture.mapping = THREE.EquirectangularReflectionMapping;
 
-						texture.mapping = THREE.EquirectangularReflectionMapping;
-
-						scene1.background = texture;
-						scene1.environment = texture;
-                    });
+        scene1.background = texture;
+        scene1.environment = texture;
+    });
 
 //Animation mixer array
 var mixer_arr = [];
@@ -69,7 +68,7 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.gammaInput = true;
 renderer.gammaOutput = true;
 renderer.antialias = true;
-renderer.toneMapping = THREE.ReinhardToneMapping
+renderer.toneMapping = THREE.LinearToneMapping;
 
 //Camera
 var distance = 2500;
@@ -111,7 +110,7 @@ var links = {
 // Instantiate a loading manager
 var manager = new THREE.LoadingManager();
 
-manager.onStart = function() {
+manager.onStart = function () {
     uiElement.style.display = '';
 }
 
@@ -137,16 +136,18 @@ loader.setDRACOLoader(dracoLoader);
 
 ////
 
-function addScene(gltf) {
-    scene1.add(gltf.scene)
-}
-
-//After load functions
-function addTransparency(gltf) {
+function addScene(gltf, transparent = false, rename) {
     gltf.scene.traverse(function (child) {
         if (child instanceof THREE.Mesh) {
             //child.material.alphaHash = true;
-            child.material.trasparent = true;
+            if (transparent) {
+                child.material.trasparent = true;
+            }
+            if (rename) {
+                child.name = rename;
+            }
+
+            child.material.envMapIntensity = 0.1;
         }
     })
     scene1.add(gltf.scene)
@@ -189,26 +190,15 @@ function addAnimatedScene(gltf, scale) {
     ])
 
     addScene(base_mesh)
-    addTransparency(transparent_mesh)
-    addScene(interactive_mesh1)
-    addScene(interactive_mesh2)
-    addScene(interactive_mesh3)
-    addScene(interactive_mesh4)
+    addScene(transparent_mesh, true)
+    addScene(interactive_mesh1, false, "link1")
+    addScene(interactive_mesh2, false, "link2")
+    addScene(interactive_mesh3, false, "link3")
+    addScene(interactive_mesh4, false, "link4")
     addAnimatedScene(coffee_guy, 0.2)
 
     //Lights and fog
-    for (const element of [-10, -5, 0, 5, 10]) {
-        var light = new THREE.SpotLight(0xffd0bb, 100, 0, Math.PI / 3, .3);
-        light.castShadow = true;
-        const targetObject = new THREE.Object3D();
-        targetObject.position.set(0, 0, element);
-        scene1.add(targetObject);
-        light.target = targetObject;
-        light.position.set(0, 10, element);
-        scene1.add(light);
-    }
-
-    var focus_light = new THREE.SpotLight(0xffd0bb, 200, 0, Math.PI / 6, .3);
+    var focus_light = new THREE.SpotLight(0xffd0bb, 400, 0, Math.PI / 6, .3);
     focus_light.castShadow = true;
     var focus_target = new THREE.Object3D();
     focus_target.position.set(0, 20, 0);
@@ -226,7 +216,6 @@ function render() {
     //constrain movement to bbox
     //orbit.target.clamp(new THREE.Vector3(-1.5, 5, -6), new THREE.Vector3(1.5, 5, 6))
     //exposure
-    renderer.toneMappingExposure = Math.pow(0.7, 5.0);  // -> exposure: 0.168
     renderer.render(active_scene, camera);
 
     requestAnimationFrame(render);
@@ -282,6 +271,7 @@ window.addEventListener('pointermove', function (event) {
 
         //multiple materials on one mesh are given the name "xxx", "xxx_1", ...
         target_name = target_intersect.object.name.split("_")[0]
+        //console.log(target_name)
 
         if (Object.keys(links).indexOf(target_name) >= 0) {
             myCanvas.style.cursor = "pointer"
