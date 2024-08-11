@@ -36,7 +36,8 @@ let base_mesh,
 
 //Lights
 var focus_light_intensity = 400
-let focus_light, focus_light_colour
+var focus_light_colour = 0xfff5b6
+let focus_light
 
 //Empties
 let focus_target
@@ -219,12 +220,6 @@ async function init() {
 
     //Lights and fog
     var focus_light_intensity = 400
-
-    if (using_mobile) {
-        focus_light_colour = 0xff0000
-    } else {
-        focus_light_colour = 0x00ff00
-    }
 
     focus_light = new THREE.SpotLight(focus_light_colour, focus_light_intensity, 0, Math.PI / 6, .3)
     focus_light.castShadow = true
