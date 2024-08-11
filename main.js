@@ -251,6 +251,7 @@ window.addEventListener('pointermove', function (event) {
         target_name = target_intersect.object.name.split("_")[0]
         //console.log(target_name)
 
+        //get the link for any objects which have them
         if (Object.keys(links).indexOf(target_name) >= 0) {
             myCanvas.style.cursor = "pointer"
             focus_light.position.z = target_intersect.point.z
