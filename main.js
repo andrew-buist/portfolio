@@ -120,6 +120,7 @@ loader.setDRACOLoader(dracoLoader)
 ////
 
 function addScene(gltf, rename, transparent = false, animated = false, position = [0, 0, 0], rotation = [0, 0, 0], scale = [1, 1, 1]) {
+    //transform block//
     gltf.scene.position.x = position[0]
     gltf.scene.position.y = position[1]
     gltf.scene.position.z = position[2]
@@ -131,7 +132,9 @@ function addScene(gltf, rename, transparent = false, animated = false, position 
     gltf.scene.rotation.x = rotation[0]
     gltf.scene.rotation.y = rotation[1]
     gltf.scene.rotation.z = rotation[2]
+    ////
 
+    //apply animations//
     if (animated) {
         var mixer = new THREE.AnimationMixer(gltf.scene)
         gltf.animations.forEach((clip) => {
@@ -141,7 +144,9 @@ function addScene(gltf, rename, transparent = false, animated = false, position 
         })
         mixer_arr.push(mixer)
     }
+    ////
 
+    //material overrides for transparency, envIntensity, and rename//
     gltf.scene.traverse(function (child) {
         if (child instanceof THREE.Mesh) {
             //child.material.alphaHash = true
@@ -155,6 +160,8 @@ function addScene(gltf, rename, transparent = false, animated = false, position 
             child.material.envMapIntensity = 0.1
         }
     })
+    ////
+    
     scene1.add(gltf.scene)
 }
 
