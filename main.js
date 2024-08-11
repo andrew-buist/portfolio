@@ -4,7 +4,6 @@ import { GLTFLoader } from './scripts/three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from './scripts/three/examples/jsm/loaders/DRACOLoader.js'
 import { RGBELoader } from './scripts/three/examples/jsm/loaders/RGBELoader.js'
 
-
 //KEY VARIABLES//
 //Document
 var uiElement = document.querySelector('#loadingscreen')
@@ -32,7 +31,8 @@ let base_mesh,
     interactive_mesh3,
     interactive_mesh4,
     blockstack,
-    businessman
+    businessman,
+    arrow
 
 //Lights
 var focus_light_intensity = 400
@@ -75,7 +75,7 @@ var distance = 2500
 var diag = Math.sqrt((height * height) + (width * width))
 var fov = 2 * Math.atan((diag) / (2 * distance)) * (180 / Math.PI) //Field of View
 var camera = new THREE.PerspectiveCamera(fov, window.innerWidth / window.innerHeight, 0.1, distance)
-camera.position.set(6, 5, 0)
+camera.position.set(0, 5, 0)
 camera.zoom = 1
 camera.updateProjectionMatrix()
 
@@ -106,6 +106,13 @@ var links = {
     "link3": "https://github.com/andrew-buist/",
     "link4": "https://twitter.com/drewbio",
     "link5": "./pages/sections/3d_modelling.html"
+}
+
+//Locations
+var locs = {
+    "a1": [0, 5, 0],
+    "a2": [0, 5, 10],
+    "a3": [0, 5, -10]
 }
 
 // Instantiate a loading manager
@@ -185,7 +192,6 @@ function addScene(gltf, rename, transparent = false, animated = false, position 
     scene1.add(gltf.scene)
 }
 
-
 //Scene1 (main) .adds
 async function init() {
     //asset loader to push an array on promise
@@ -197,7 +203,8 @@ async function init() {
         interactive_mesh3,
         interactive_mesh4,
         blockstack,
-        businessman
+        businessman,
+        arrow
     ] = await Promise.all([
         loader.loadAsync("./3d_scenery/museum_hall.glb"),
         loader.loadAsync("./3d_scenery/museum_hall_plants_alpha.glb"),
@@ -206,7 +213,8 @@ async function init() {
         loader.loadAsync("./3d_scenery/museum_hall_painting3.glb"),
         loader.loadAsync("./3d_scenery/museum_hall_painting4.glb"),
         loader.loadAsync("./3d_scenery/blockstack.glb"),
-        loader.loadAsync("./3d_scenery/businessman.glb")
+        loader.loadAsync("./3d_scenery/businessman.glb"),
+        loader.loadAsync("./3d_scenery/arrow.glb")
     ])
 
     addScene(base_mesh, "building")
@@ -217,10 +225,9 @@ async function init() {
     addScene(interactive_mesh4, "link4")
     addScene(blockstack, "link5")
     addScene(businessman, "businessman", false, true, [6.4203, -0.8, -3.1523], [0, -Math.PI / 2, 0], [3, 3, 3])
+    addScene(arrow, "a1", false, true, [0, 0, 10])
 
     //Lights and fog
-    var focus_light_intensity = 400
-
     focus_light = new THREE.SpotLight(focus_light_colour, focus_light_intensity, 0, Math.PI / 6, .3)
     focus_light.castShadow = true
     focus_target = new THREE.Object3D()
@@ -268,8 +275,8 @@ function onWindowResize() {
 }
 
 window.addEventListener('pointermove', function (event) {
-    
-    if (using_mobile){
+
+    if (using_mobile) {
         pointer.x = 0
         pointer.y = 0
     } else {
