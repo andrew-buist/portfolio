@@ -268,8 +268,14 @@ function onWindowResize() {
 }
 
 window.addEventListener('pointermove', function (event) {
-    pointer.x = (event.clientX / window.innerWidth) * 2 - 1
-    pointer.y = - (event.clientY / window.innerHeight) * 2 + 1
+    
+    if (using_mobile){
+        pointer.x = 0
+        pointer.y = 0
+    } else {
+        pointer.x = (event.clientX / window.innerWidth) * 2 - 1
+        pointer.y = - (event.clientY / window.innerHeight) * 2 + 1
+    }
     raycaster.setFromCamera(pointer, camera)
     intersects = raycaster.intersectObjects(active_scene.children)
     if (intersects.length > 0) {
