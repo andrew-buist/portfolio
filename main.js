@@ -97,9 +97,9 @@ manager.onStart = function () {
 }
 
 manager.onProgress = function (url, itemsLoaded, itemsTotal) {
+    console.log(url)
     var load_percent = ((itemsLoaded / itemsTotal) * 100).toFixed(2)
     uiLoadingBar.style.width = load_percent + "%"
-    console.log(load_percent)
 }
 
 manager.onLoad = function () {
@@ -119,7 +119,29 @@ loader.setDRACOLoader(dracoLoader)
 
 ////
 
-function addScene(gltf, transparent = false, rename) {
+function addScene(gltf, rename, transparent = false, animated = false, position = [0, 0, 0], rotation = [0, 0, 0], scale = [1, 1, 1]) {
+    gltf.scene.position.x = position[0]
+    gltf.scene.position.y = position[1]
+    gltf.scene.position.z = position[2]
+
+    gltf.scene.scale.x = scale[0]
+    gltf.scene.scale.y = scale[1]
+    gltf.scene.scale.z = scale[2]
+
+    gltf.scene.rotation.x = rotation[0]
+    gltf.scene.rotation.y = rotation[1]
+    gltf.scene.rotation.z = rotation[2]
+
+    if (animated) {
+        var mixer = new THREE.AnimationMixer(gltf.scene)
+        gltf.animations.forEach((clip) => {
+
+        mixer.clipAction(clip).play()
+
+        })
+        mixer_arr.push(mixer)
+    }
+
     gltf.scene.traverse(function (child) {
         if (child instanceof THREE.Mesh) {
             //child.material.alphaHash = true
@@ -134,29 +156,6 @@ function addScene(gltf, transparent = false, rename) {
         }
     })
     scene1.add(gltf.scene)
-}
-
-function addAnimatedScene(gltf, position = [0, 0, 0], rotation = [0, 0, 0], scale = [1, 1, 1]) {
-    gltf.scene.position.x = position[0]
-    gltf.scene.position.y = position[1]
-    gltf.scene.position.z = position[2]
-
-    gltf.scene.scale.x = scale[0]
-    gltf.scene.scale.y = scale[1]
-    gltf.scene.scale.z = scale[2]
-
-    gltf.scene.rotation.x = rotation[0]
-    gltf.scene.rotation.y = rotation[1]
-    gltf.scene.rotation.z = rotation[2]
-
-    scene1.add(gltf.scene)
-    var mixer = new THREE.AnimationMixer(gltf.scene)
-    gltf.animations.forEach((clip) => {
-
-        mixer.clipAction(clip).play()
-
-    })
-    mixer_arr.push(mixer)
 }
 
 
@@ -184,13 +183,13 @@ function addAnimatedScene(gltf, position = [0, 0, 0], rotation = [0, 0, 0], scal
     ])
 
     addScene(base_mesh)
-    addScene(transparent_mesh, true)
-    addScene(interactive_mesh1, false, "link1")
-    addScene(interactive_mesh2, false, "link2")
-    addScene(interactive_mesh3, false, "link3")
-    addScene(interactive_mesh4, false, "link4")
-    addScene(blockstack, false, "link5")
-    addAnimatedScene(businessman, [6.4203, -0.8, -3.1523], [0, -Math.PI / 2, 0], [3, 3, 3])
+    addScene(transparent_mesh, "", true)
+    addScene(interactive_mesh1, "link1")
+    addScene(interactive_mesh2, "link2")
+    addScene(interactive_mesh3, "link3")
+    addScene(interactive_mesh4, "link4")
+    addScene(blockstack, "link5")
+    addScene(businessman, "", false, true, [6.4203, -0.8, -3.1523], [0, -Math.PI / 2, 0], [3, 3, 3])
 
     //Lights and fog
     var focus_light_intensity = 400
