@@ -129,7 +129,7 @@ loader.setDRACOLoader(dracoLoader)
 
 ////
 
-function addScene(gltf, rename, transparent = false, animated = false, position = [0, 0, 0], rotation = [0, 0, 0], scale = [1, 1, 1]) {
+function addScene(gltf, rename, animated = false, position = [0, 0, 0], rotation = [0, 0, 0], scale = [1, 1, 1]) {
     //transform block//
     gltf.scene.position.x = position[0]
     gltf.scene.position.y = position[1]
@@ -160,7 +160,7 @@ function addScene(gltf, rename, transparent = false, animated = false, position 
     gltf.scene.traverse(function (child) {
         if (child instanceof THREE.Mesh) {
             //child.material.alphaHash = true
-            if (transparent) {
+            if (child.material.name.includes("trans")) {
                 child.material.trasparent = true
             }
             if (rename) {
@@ -199,14 +199,14 @@ async function init() {
         loader.loadAsync("./3d_scenery/businessman.glb")
     ])
 
-    addScene(base_mesh)
-    addScene(transparent_mesh, "", true)
+    addScene(base_mesh, "building")
+    addScene(transparent_mesh, "plants", true)
     addScene(interactive_mesh1, "link1")
     addScene(interactive_mesh2, "link2")
     addScene(interactive_mesh3, "link3")
     addScene(interactive_mesh4, "link4")
     addScene(blockstack, "link5")
-    addScene(businessman, "", false, true, [6.4203, -0.8, -3.1523], [0, -Math.PI / 2, 0], [3, 3, 3])
+    addScene(businessman, "businessman", true, [6.4203, -0.8, -3.1523], [0, -Math.PI / 2, 0], [3, 3, 3])
 
     //Lights and fog
     var focus_light_intensity = 400
