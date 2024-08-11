@@ -23,6 +23,16 @@ new RGBELoader()
         scene1.environment = texture
     })
 
+//Models
+let base_mesh,
+    transparent_mesh,
+    interactive_mesh1,
+    interactive_mesh2,
+    interactive_mesh3,
+    interactive_mesh4,
+    blockstack,
+    businessman
+
 //Animation mixer array
 var mixer_arr = []
 
@@ -139,7 +149,7 @@ function addScene(gltf, rename, transparent = false, animated = false, position 
         var mixer = new THREE.AnimationMixer(gltf.scene)
         gltf.animations.forEach((clip) => {
 
-        mixer.clipAction(clip).play()
+            mixer.clipAction(clip).play()
 
         })
         mixer_arr.push(mixer)
@@ -157,19 +167,19 @@ function addScene(gltf, rename, transparent = false, animated = false, position 
                 child.name = rename
             }
 
-            child.material.envMapIntensity = 0.1
+            child.material.envMapIntensity = 0.3
         }
     })
     ////
-    
+
     scene1.add(gltf.scene)
 }
 
 
 //Scene1 (main) .adds
-{
+async function init() {
     //asset loader to push an array on promise
-    var [
+    [
         base_mesh,
         transparent_mesh,
         interactive_mesh1,
@@ -301,6 +311,7 @@ window.addEventListener('pointerup', function (event) {
 
 //Main Loop//
 {
+    init()
     render()
     animate()
 }
