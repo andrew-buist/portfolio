@@ -33,6 +33,14 @@ let base_mesh,
     blockstack,
     businessman
 
+//Lights
+var focus_light_intensity = 400
+
+let focus_light
+
+//Empties
+let focus_target
+
 //Animation mixer array
 var mixer_arr = []
 
@@ -211,9 +219,9 @@ async function init() {
     //Lights and fog
     var focus_light_intensity = 400
 
-    var focus_light = new THREE.SpotLight(0xffd0bb, focus_light_intensity, 0, Math.PI / 6, .3)
+    focus_light = new THREE.SpotLight(0xffd0bb, focus_light_intensity, 0, Math.PI / 6, .3)
     focus_light.castShadow = true
-    var focus_target = new THREE.Object3D()
+    focus_target = new THREE.Object3D()
     focus_target.position.set(0, 20, 0)
     scene1.add(focus_target)
     focus_light.target = focus_target
@@ -279,9 +287,9 @@ window.addEventListener('pointermove', function (event) {
             focus_light.target.position.z = target_intersect.point.z
         } else {
             myCanvas.style.cursor = "default"
+            focus_light.intensity = 0
             focus_light.position.z = 0
             focus_light.position.y = 10
-            focus_light.intensity = 0
         }
     } else {
         //console.log("no hit!")
