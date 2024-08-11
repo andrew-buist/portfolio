@@ -104,8 +104,8 @@ manager.onProgress = function (url, itemsLoaded, itemsTotal) {
 
 manager.onLoad = function () {
     //Remove loading screen background
-    uiElement.style.display = 'none';
     active_scene = scene1;
+    uiElement.style.display = 'none';
     document.body.appendChild(renderer.domElement);
 }
 
