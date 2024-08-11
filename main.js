@@ -193,7 +193,9 @@ function addAnimatedScene(gltf, position = [0,0,0], rotation = [0,0,0], scale = 
     addAnimatedScene(businessman,[6.4203,-0.8,-3.1523],[0,-Math.PI/2,0],[3,3,3])
 
     //Lights and fog
-    var focus_light = new THREE.SpotLight(0xffd0bb, 400, 0, Math.PI / 6, .3);
+    var focus_light_intensity = 400
+
+    var focus_light = new THREE.SpotLight(0xffd0bb, focus_light_intensity, 0, Math.PI / 6, .3);
     focus_light.castShadow = true;
     var focus_target = new THREE.Object3D();
     focus_target.position.set(0, 20, 0);
@@ -254,6 +256,7 @@ window.addEventListener('pointermove', function (event) {
         //get the link for any objects which have them
         if (Object.keys(links).indexOf(target_name) >= 0) {
             myCanvas.style.cursor = "pointer"
+            focus_light.intensity = focus_light_intensity;
             focus_light.position.z = target_intersect.point.z
             focus_light.target.position.x = target_intersect.point.x;
             focus_light.target.position.y = target_intersect.point.y;
@@ -262,9 +265,7 @@ window.addEventListener('pointermove', function (event) {
             myCanvas.style.cursor = "default"
             focus_light.position.z = 0
             focus_light.position.y = 10
-            focus_light.target.position.x = 0;
-            focus_light.target.position.y = 20;
-            focus_light.target.position.z = 0;
+            focus_light.intensity = 0;
         }
     } else {
         //console.log("no hit!")
