@@ -9,6 +9,7 @@ import { RGBELoader } from './scripts/three/examples/jsm/loaders/RGBELoader.js'
 //Document
 var uiElement = document.querySelector('#loadingscreen')
 var uiLoadingBar = document.querySelector('#loadingbar')
+const using_mobile = "ontouchstart" in document.documentElement
 
 //Scenes
 var active_scene = new THREE.Scene()
@@ -35,8 +36,7 @@ let base_mesh,
 
 //Lights
 var focus_light_intensity = 400
-
-let focus_light
+let focus_light, focus_light_colour
 
 //Empties
 let focus_target
@@ -85,6 +85,7 @@ orbit.maxPolarAngle = Math.PI / 1.5
 orbit.maxDistance = 6
 orbit.target = new THREE.Vector3(-1, 5, 0)
 orbit.reversed = false
+orbit.enablePan = false
 orbit.update()
 
 //Raycasting
@@ -219,7 +220,13 @@ async function init() {
     //Lights and fog
     var focus_light_intensity = 400
 
-    focus_light = new THREE.SpotLight(0xffd0bb, focus_light_intensity, 0, Math.PI / 6, .3)
+    if (using_mobile) {
+        focus_light_colour = 0xff0000
+    } else {
+        focus_light_colour = 0x00ff00
+    }
+
+    focus_light = new THREE.SpotLight(focus_light_colour, focus_light_intensity, 0, Math.PI / 6, .3)
     focus_light.castShadow = true
     focus_target = new THREE.Object3D()
     focus_target.position.set(0, 20, 0)
