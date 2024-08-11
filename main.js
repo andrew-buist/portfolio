@@ -153,9 +153,18 @@ function addScene(gltf, transparent = false, rename) {
     scene1.add(gltf.scene)
 }
 
-function addAnimatedScene(gltf, scale) {
-    gltf.scene.scale.set(scale, scale, scale)
-    gltf.scene.rotation.set(0, Math.PI, 0)
+function addAnimatedScene(gltf, position = [0,0,0], rotation = [0,0,0], scale = [1,1,1]) {
+    gltf.scene.position.x = position[0]
+    gltf.scene.position.y = position[1]
+    gltf.scene.position.z = position[2]
+
+    gltf.scene.scale.x = scale[0]
+    gltf.scene.scale.y = scale[1]
+    gltf.scene.scale.z = scale[2]
+
+    gltf.scene.rotation.x = rotation[0]
+    gltf.scene.rotation.y = rotation[1]
+    gltf.scene.rotation.z = rotation[2]
 
     scene1.add(gltf.scene);
     var mixer = new THREE.AnimationMixer(gltf.scene);
@@ -178,7 +187,8 @@ function addAnimatedScene(gltf, scale) {
         interactive_mesh2,
         interactive_mesh3,
         interactive_mesh4,
-        coffee_guy
+        coffee_guy,
+        businessman
     ] = await Promise.all([
         loader.loadAsync("./3d_scenery/museum_hall.glb"),
         loader.loadAsync("./3d_scenery/museum_hall_plants_alpha.glb"),
@@ -186,7 +196,8 @@ function addAnimatedScene(gltf, scale) {
         loader.loadAsync("./3d_scenery/museum_hall_painting2.glb"),
         loader.loadAsync("./3d_scenery/museum_hall_painting3.glb"),
         loader.loadAsync("./3d_scenery/museum_hall_painting4.glb"),
-        loader.loadAsync("./3d_scenery/coffee_guy.glb")
+        loader.loadAsync("./3d_scenery/coffee_guy.glb"),
+        loader.loadAsync("./3d_scenery/businessman.glb")
     ])
 
     addScene(base_mesh)
@@ -195,7 +206,8 @@ function addAnimatedScene(gltf, scale) {
     addScene(interactive_mesh2, false, "link2")
     addScene(interactive_mesh3, false, "link3")
     addScene(interactive_mesh4, false, "link4")
-    addAnimatedScene(coffee_guy, 0.2)
+    addAnimatedScene(coffee_guy, [0,0,0], [0, 0, 0], [0.2,0.2,0.2])
+    addAnimatedScene(businessman,[6.4203,-0.8612,-3.1523],[0,-Math.PI/2,0],[3,3,3])
 
     //Lights and fog
     var focus_light = new THREE.SpotLight(0xffd0bb, 400, 0, Math.PI / 6, .3);
