@@ -225,7 +225,7 @@ async function init() {
     addScene(interactive_mesh4, "link4")
     addScene(blockstack, "link5")
     addScene(businessman, "businessman", false, true, [6.4203, -0.8, -3.1523], [0, -Math.PI / 2, 0], [3, 3, 3])
-    addScene(arrow, "a1", false, true, [0, 0, 10])
+    //addScene(arrow, "a1", false, true, [0, 0, 10])
 
     //Lights and fog
     focus_light = new THREE.SpotLight(focus_light_colour, focus_light_intensity, 0, Math.PI / 6, .3)
