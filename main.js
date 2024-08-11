@@ -7,7 +7,6 @@ import { RGBELoader } from './scripts/three/examples/jsm/loaders/RGBELoader.js';
 
 //KEY VARIABLES//
 //Document
-var init_title = document.title
 var uiElement = document.querySelector('#loadingscreen');
 var uiLoadingBar = document.querySelector('#loadingbar')
 
@@ -34,24 +33,6 @@ var width = window.innerWidth;
 
 //Clock 
 var clock = new THREE.Clock();
-
-//Bezier Paths
-var speed = 10;
-var subdivisions = 5000
-var fraction = 0;
-var tangent = new THREE.Vector3();
-var axis = new THREE.Vector3();
-var up = new THREE.Vector3(-1, 0, 0);
-var bezier_path = new THREE.CatmullRomCurve3(
-    [
-        new THREE.Vector3(7.25, 2, 6),
-        new THREE.Vector3(6.5, 2, 7),
-        new THREE.Vector3(5.75, 2, 6),
-        new THREE.Vector3(6.5, 2, 5)
-    ],
-    true
-);
-var bezier_points = bezier_path.getSpacedPoints(subdivisions)
 
 //Renderer
 var renderer = new THREE.WebGLRenderer({
@@ -104,13 +85,14 @@ var links = {
     "link2": "https://www.linkedin.com/in/andrew-buist1",
     "link3": "https://github.com/andrew-buist/",
     "link4": "https://twitter.com/drewbio",
-    "coffeeguy": "./pages/sections/3d_modelling.html"
+    "link5": "./pages/sections/3d_modelling.html"
 }
 
 // Instantiate a loading manager
 var manager = new THREE.LoadingManager();
 
 manager.onStart = function () {
+    //Display loading screen background
     uiElement.style.display = '';
 }
 
@@ -121,8 +103,9 @@ manager.onProgress = function (url, itemsLoaded, itemsTotal) {
 }
 
 manager.onLoad = function () {
-    active_scene = scene1;
+    //Remove loading screen background
     uiElement.style.display = 'none';
+    active_scene = scene1;
     document.body.appendChild(renderer.domElement);
 }
 
@@ -187,7 +170,7 @@ function addAnimatedScene(gltf, position = [0,0,0], rotation = [0,0,0], scale = 
         interactive_mesh2,
         interactive_mesh3,
         interactive_mesh4,
-        coffee_guy,
+        blockstack,
         businessman
     ] = await Promise.all([
         loader.loadAsync("./3d_scenery/museum_hall.glb"),
@@ -196,7 +179,7 @@ function addAnimatedScene(gltf, position = [0,0,0], rotation = [0,0,0], scale = 
         loader.loadAsync("./3d_scenery/museum_hall_painting2.glb"),
         loader.loadAsync("./3d_scenery/museum_hall_painting3.glb"),
         loader.loadAsync("./3d_scenery/museum_hall_painting4.glb"),
-        loader.loadAsync("./3d_scenery/coffee_guy.glb"),
+        loader.loadAsync("./3d_scenery/blockstack.glb"),
         loader.loadAsync("./3d_scenery/businessman.glb")
     ])
 
@@ -206,8 +189,8 @@ function addAnimatedScene(gltf, position = [0,0,0], rotation = [0,0,0], scale = 
     addScene(interactive_mesh2, false, "link2")
     addScene(interactive_mesh3, false, "link3")
     addScene(interactive_mesh4, false, "link4")
-    addAnimatedScene(coffee_guy, [0,0,0], [0, 0, 0], [0.2,0.2,0.2])
-    addAnimatedScene(businessman,[6.4203,-0.8612,-3.1523],[0,-Math.PI/2,0],[3,3,3])
+    addScene(blockstack, false, "link5")
+    addAnimatedScene(businessman,[6.4203,-0.8,-3.1523],[0,-Math.PI/2,0],[3,3,3])
 
     //Lights and fog
     var focus_light = new THREE.SpotLight(0xffd0bb, 400, 0, Math.PI / 6, .3);
@@ -242,23 +225,6 @@ function animate() {
     if (mixer_arr.length > 0) {
         mixer_arr.forEach((element) => element.update(delta));
     }
-
-    fraction += delta
-    var fraction_partition = Math.floor(fraction / speed * subdivisions)
-
-    if (fraction_partition >= subdivisions) {
-        fraction = 0;
-    }
-
-    coffee_guy.scene.position.x = bezier_points[fraction_partition].x;
-    coffee_guy.scene.position.z = bezier_points[fraction_partition].z;
-    coffee_guy.scene.position.y = bezier_points[fraction_partition].y;
-
-    tangent = bezier_path.getTangent(fraction / speed).normalize();
-    axis = axis.crossVectors(up, tangent).normalize();
-    var radians = Math.acos(up.dot(tangent));
-
-    coffee_guy.scene.quaternion.setFromAxisAngle(axis, radians);
 
     renderer.render(scene1, camera);
 
@@ -298,15 +264,6 @@ window.addEventListener('pointermove', function (event) {
             focus_light.target.position.x = 0;
             focus_light.target.position.y = 20;
             focus_light.target.position.z = 0;
-        }
-
-        if (target_name == "coffeeguy") {
-            //console.log("that's coffeeguy!")
-            focus_light.angle = Math.PI / 12
-            focus_light.intensity = 400;
-        } else {
-            focus_light.angle = Math.PI / 6
-            focus_light.intensity = 200;
         }
     } else {
         //console.log("no hit!")
