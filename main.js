@@ -23,6 +23,17 @@ new RGBELoader()
         scene1.environment = texture
     })
 
+//Models
+let base_mesh,
+    transparent_mesh,
+    interactive_mesh1,
+    interactive_mesh2,
+    interactive_mesh3,
+    interactive_mesh4,
+    blockstack,
+    businessman,
+    arrow
+
 //Lights
 var focus_light_intensity = 400
 var focus_light_colour = 0xfff5b6
@@ -184,25 +195,36 @@ function addScene(gltf, rename, transparent = false, animated = false, position 
 //Scene1 (main) .adds
 async function init() {
     //asset loader to push an array on promise
-    await Promise.all([
-        addScene(loader.loadAsync("./3d_scenery/museum_hall.glb"),"building"),
-        addScene(loader.loadAsync("./3d_scenery/museum_hall_plants_alpha.glb", "plants", true)),
-        addScene(loader.loadAsync("./3d_scenery/museum_hall_painting1.glb", "link1")),
-        addScene(loader.loadAsync("./3d_scenery/museum_hall_painting2.glb", "link2")),
-        addScene(loader.loadAsync("./3d_scenery/museum_hall_painting3.glb", "link3")),
-        addScene(loader.loadAsync("./3d_scenery/museum_hall_painting4.glb", "link4")),
-        addScene(loader.loadAsync("./3d_scenery/blockstack.glb", "link5")),
-        addScene(loader.loadAsync("./3d_scenery/businessman.glb", "businessman", false, true, [6.4203, -0.8, -3.1523], [0, -Math.PI / 2, 0], [3, 3, 3]))
+    [
+        base_mesh,
+        transparent_mesh,
+        interactive_mesh1,
+        interactive_mesh2,
+        interactive_mesh3,
+        interactive_mesh4,
+        blockstack,
+        businessman,
+        arrow
+    ] = await Promise.all([
+        loader.loadAsync("./3d_scenery/museum_hall.glb"),
+        loader.loadAsync("./3d_scenery/museum_hall_plants_alpha.glb"),
+        loader.loadAsync("./3d_scenery/museum_hall_painting1.glb"),
+        loader.loadAsync("./3d_scenery/museum_hall_painting2.glb"),
+        loader.loadAsync("./3d_scenery/museum_hall_painting3.glb"),
+        loader.loadAsync("./3d_scenery/museum_hall_painting4.glb"),
+        loader.loadAsync("./3d_scenery/blockstack.glb"),
+        loader.loadAsync("./3d_scenery/businessman.glb"),
+        loader.loadAsync("./3d_scenery/arrow.glb")
     ])
 
-    //addScene(base_mesh, "building")
-    //addScene(transparent_mesh, "plants", true)
-    //addScene(interactive_mesh1, "link1")
-    //addScene(interactive_mesh2, "link2")
-    //addScene(interactive_mesh3, "link3")
-    //addScene(interactive_mesh4, "link4")
-    //addScene(blockstack, "link5")
-    //addScene(businessman, "businessman", false, true, [6.4203, -0.8, -3.1523], [0, -Math.PI / 2, 0], [3, 3, 3])
+    addScene(base_mesh, "building")
+    addScene(transparent_mesh, "plants", true)
+    addScene(interactive_mesh1, "link1")
+    addScene(interactive_mesh2, "link2")
+    addScene(interactive_mesh3, "link3")
+    addScene(interactive_mesh4, "link4")
+    addScene(blockstack, "link5")
+    addScene(businessman, "businessman", false, true, [6.4203, -0.8, -3.1523], [0, -Math.PI / 2, 0], [3, 3, 3])
     //addScene(arrow, "a1", false, true, [0, 0, 10])
 
     //Lights and fog
@@ -316,4 +338,3 @@ window.addEventListener('pointerup', function (event) {
     render()
     animate()
 }
-
