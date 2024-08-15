@@ -326,7 +326,10 @@ window.addEventListener('pointerdown', function (event) {
     startX = event.clientX
     startY = event.clientY
     if (USING_MOBILE){
-        //mobile requires we redothe intersect on tap
+        //mobile requires we redo the intersect on tap
+        pointer.x = (event.clientX / window.innerWidth) * 2 - 1
+        pointer.y = - (event.clientY / window.innerHeight) * 2 + 1
+
         raycaster.setFromCamera(pointer, camera)
         intersects = raycaster.intersectObjects(activeScene.children)
 
