@@ -325,6 +325,14 @@ window.addEventListener('pointermove', function (event) {
 window.addEventListener('pointerdown', function (event) {
     startX = event.clientX
     startY = event.clientY
+    if (USING_MOBILE){
+        //mobile requires we redothe intersect on tap
+        raycaster.setFromCamera(pointer, camera)
+        intersects = raycaster.intersectObjects(activeScene.children)
+
+        targetIntersect = intersects.reduce((prev, curr) => prev.distance < curr.distance ? prev : curr)
+        targetName = targetIntersect.object.name.split("_")[0]
+    }
 })
 
 window.addEventListener('pointerup', function (event) {
