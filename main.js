@@ -198,9 +198,9 @@ function addToScene(sceneName, par = {}) {
             child.name = par.rename
             child.frustumCulled = false
 
-            if (child.material.name.includes("trans")) {
-                child.material.trasparent = true
-            }
+            //if (child.material.name.includes("trans")) {
+            //    child.material.trasparent = true
+            //}
             child.material.envMapIntensity = 0.3
         }
     })
@@ -219,7 +219,7 @@ async function init() {
             "./3d_scenery/museum_hall_painting2.glb",
             "./3d_scenery/museum_hall_painting3.glb",
             "./3d_scenery/museum_hall_painting4.glb",
-            "./3d_scenery/blockstack.glb",
+            "./3d_scenery/vase.glb",
             "./3d_scenery/businessman.glb",
             "./3d_scenery/arrow.glb"
         ],
@@ -244,8 +244,8 @@ async function init() {
     addToScene("link5")
     addToScene("businessman", { position: [6.4203, -0.8, -3.1523], rotation: [0, -Math.PI / 2, 0], scale: [3, 3, 3] })
     addToScene("arrow", { position: [0, 0, 0], rename: "a1", nav: [0,5,0]})
-    addToScene("arrow", { position: [0, 0, 10], rename: "a2", nav: [0,5,0] })
-    addToScene("arrow", { position: [0, 0, -10], rename: "a3", nav: [0,5,0] })
+    addToScene("arrow", { position: [0, 0, 8], rename: "a2", nav: [0,5,0] })
+    addToScene("arrow", { position: [0, 0, -8], rename: "a3", nav: [0,5,0] })
     addToScene("arrow", { position: [6.4203, 2, -1], rename: "a4", nav: [0,3,0] })
 
     //Lights and fog
