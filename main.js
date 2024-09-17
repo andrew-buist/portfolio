@@ -69,13 +69,14 @@ var distance = 1750
 var orbitDistance = 1
 var fov = 50 //Field of View
 var camera = new THREE.PerspectiveCamera(fov, windowWidth / windowHeight, 0.01, distance)
-camera.position.set(orbitDistance*Math.sqrt(2)/2, 5, orbitDistance*Math.sqrt(2)/2)
+// orbitDistance should be +/-'d to chose coordinate to indicate positive or negative direction
+camera.position.set(0, 5, 8+orbitDistance)
 camera.zoom = 1
 camera.updateProjectionMatrix()
 
 //controlsControls
 var controls = new OrbitControls(camera, renderer.domElement)
-controls.target.set(0,5,0)
+controls.target.set(0,5,8)
 controls.enableZoom = false
 controls.enablePan = false
 
