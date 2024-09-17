@@ -197,10 +197,6 @@ function addToScene(sceneName, par = {}) {
             //assign name to each element of mesh for raycast name passback
             child.name = par.rename
             child.frustumCulled = false
-
-            //if (child.material.name.includes("trans")) {
-            //    child.material.trasparent = true
-            //}
             child.material.envMapIntensity = 0.3
         }
     })
@@ -214,7 +210,6 @@ async function init() {
     await loadPush(
         [
             "./3d_scenery/museum_hall.glb",
-            "./3d_scenery/museum_hall_plants_alpha.glb",
             "./3d_scenery/museum_hall_painting1.glb",
             "./3d_scenery/museum_hall_painting2.glb",
             "./3d_scenery/museum_hall_painting3.glb",
@@ -225,7 +220,6 @@ async function init() {
         ],
         [
             "building",
-            "plants",
             "link1",
             "link2",
             "link3",
@@ -236,7 +230,6 @@ async function init() {
         ])
 
     addToScene("building")
-    addToScene("plants")
     addToScene("link1")
     addToScene("link2")
     addToScene("link3")
