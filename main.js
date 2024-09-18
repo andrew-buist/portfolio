@@ -240,7 +240,7 @@ async function init() {
     addToScene("arrow", { position: [0, 0, 0], rename: "a1", nav: [0,5,0]})
     addToScene("arrow", { position: [0, 0, 8], rename: "a2", nav: [0,5,0] })
     addToScene("arrow", { position: [0, 0, -8], rename: "a3", nav: [0,5,0] })
-    addToScene("arrow", { position: [6.4203, 2, -1], rename: "a4", nav: [0,3,0] })
+    addToScene("arrow", { position: [6.4203, 2, -.3], rename: "a4", nav: [0,3,0] })
 
     //Lights and fog
     focusLight = new THREE.SpotLight(focusLightCol, focusLightInt, 0, Math.PI / 10, .3)
