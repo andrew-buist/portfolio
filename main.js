@@ -252,7 +252,7 @@ async function init() {
     focusLight.position.set(0, 10, 0)
     scene1.add(focusLight)
 
-    scene1.fog = new THREE.Fog(0xffffff, 15, 50)
+    scene1.fog = new THREE.Fog(0xffffff, 15, 100)
 }
 
 //Footer Functions for Rendering and Window Listeners//
