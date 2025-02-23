@@ -5,6 +5,9 @@ import { DRACOLoader } from './scripts/three/examples/jsm/loaders/DRACOLoader.js
 import { RGBELoader } from './scripts/three/examples/jsm/loaders/RGBELoader.js'
 import * as SkeletonUtils from './scripts/three/examples/jsm/utils/SkeletonUtils.js'
 
+import { Water } from './scripts/three/examples/jsm/objects/Water.js';
+
+
 //KEY VARIABLES//
 //Document
 var uiElement = document.querySelector('#loadingscreen')
@@ -67,16 +70,19 @@ renderer.toneMapping = THREE.LinearToneMapping
 //Camera
 var distance = 1750
 var orbitDistance = 1
-var fov = 50 //Field of View
+var fov = 60 //Field of View
 var camera = new THREE.PerspectiveCamera(fov, windowWidth / windowHeight, 0.01, distance)
+
+var initial_loc = [15,5,87.5]
+
 // orbitDistance should be +/-'d to chose coordinate to indicate positive or negative direction
-camera.position.set(0, 5, 8+orbitDistance)
+camera.position.set(initial_loc[0],initial_loc[1],initial_loc[2]+orbitDistance)
 camera.zoom = 1
 camera.updateProjectionMatrix()
 
 //controlsControls
 var controls = new OrbitControls(camera, renderer.domElement)
-controls.target.set(0,5,8)
+controls.target.set(initial_loc[0],initial_loc[1],initial_loc[2])
 controls.enableZoom = false
 controls.enablePan = false
 
@@ -105,11 +111,6 @@ let targetName
 
 //Painting Links
 var links = {
-    "link1": "https://cran.r-project.org/web/packages/smlmkalman/index.html",
-    "link2": "https://www.linkedin.com/in/andrew-buist1",
-    "link3": "https://github.com/andrew-buist/",
-    "link4": "https://twitter.com/drewbio",
-    "link5": "./pages/sections/3d_modelling.html"
 }
 
 //Locations
@@ -199,6 +200,13 @@ function addToScene(sceneName, par = {}) {
             child.name = par.rename
             child.frustumCulled = false
             child.material.envMapIntensity = 0.3
+
+            if (
+                'name' in child.userData &&
+                child.userData.name.includes("_leaves")
+            ){
+                child.renderOrder = 1
+            }
         }
     })
     ////
@@ -210,37 +218,20 @@ function addToScene(sceneName, par = {}) {
 async function init() {
     await loadPush(
         [
-            "./3d_scenery/museum_hall.glb",
-            "./3d_scenery/museum_hall_painting1.glb",
-            "./3d_scenery/museum_hall_painting2.glb",
-            "./3d_scenery/museum_hall_painting3.glb",
-            "./3d_scenery/museum_hall_painting4.glb",
-            "./3d_scenery/vase.glb",
-            "./3d_scenery/businessman.glb",
+            "./3d_scenery/island.glb",
             "./3d_scenery/arrow.glb"
         ],
         [
-            "building",
-            "link1",
-            "link2",
-            "link3",
-            "link4",
-            "link5",
-            "businessman",
+            "island",
             "arrow"
         ])
 
-    addToScene("building")
-    addToScene("link1")
-    addToScene("link2")
-    addToScene("link3")
-    addToScene("link4")
-    addToScene("link5")
-    addToScene("businessman", { position: [6.4203, -0.8, -3.1523], rotation: [0, -Math.PI / 2, 0], scale: [3, 3, 3] })
-    addToScene("arrow", { position: [0, 0, 0], rename: "a1", nav: [0,5,0]})
-    addToScene("arrow", { position: [0, 0, 8], rename: "a2", nav: [0,5,0] })
-    addToScene("arrow", { position: [0, 0, -8], rename: "a3", nav: [0,5,0] })
-    addToScene("arrow", { position: [6.4203, 2, -.3], rename: "a4", nav: [0,3,0] })
+    addToScene("island")
+    addToScene("arrow", { position: [15,2,87.5], rename: "a1", nav: [0,3,0]})
+    addToScene("arrow", { position: [39.5, 2, 81], rename: "a2", nav: [0,3,0] })
+    addToScene("arrow", { position: [4.7, 2, 48.8], rename: "a3", nav: [0,3,0] })
+    addToScene("arrow", { position: [30.5, 2, 9.8], rename: "a4", nav: [0,3,0] })
+    addToScene("arrow", { position: [21.1, 12, -47.4], rename: "a5", nav: [0,3,0] })
 
     //Lights and fog
     focusLight = new THREE.SpotLight(focusLightCol, focusLightInt, 0, Math.PI / 10, .3)
@@ -252,8 +243,27 @@ async function init() {
     focusLight.position.set(0, 10, 0)
     scene1.add(focusLight)
 
-    scene1.fog = new THREE.Fog(0xffffff, 15, 100)
+    scene1.fog = new THREE.Fog(0xffffff, 50, 300)
 }
+
+const waterGeometry = new THREE.PlaneGeometry( 10000, 10000 );
+
+	var water = new Water(
+        waterGeometry,
+        {
+            textureWidth: 512,
+            textureHeight: 512,
+            waterNormals: new THREE.TextureLoader().load( './scripts/three/examples/jsm/textures/waternormals.jpg', function ( texture ) {
+                texture.wrapS = texture.wrapT = THREE.RepeatWrapping
+            } ),
+            sunColor: 0x000000,
+            waterColor: 0x001e0f,
+            distortionScale: 3.0
+        }
+    )
+    water.rotation.x = - Math.PI / 2
+    water.position.y = -1.0
+    scene1.add( water );
 
 //Footer Functions for Rendering and Window Listeners//
 
@@ -266,6 +276,8 @@ function render() {
     if (mixerArr.length > 0) {
         mixerArr.forEach((element) => element.update(delta))
     }
+
+    water.material.uniforms[ 'time' ].value += 1.0 / 300.0;
 
     controls.update(delta)
     renderer.render(activeScene, camera)
